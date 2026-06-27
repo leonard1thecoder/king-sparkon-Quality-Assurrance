@@ -1,0 +1,11 @@
+id|layer|scenario|priority|appArea|testType|expectedResult
+API-HEALTH-001|API|Backend health endpoint is reachable|P0|Operations|Smoke|Returns HTTP 200
+API-DOCS-001|API|OpenAPI documentation is reachable|P1|Developer Experience|Smoke|Returns HTTP 200
+API-BARCODE-001|API|Barcode scan request is accepted|P0|Barcode Scanner|Regression|Scan response is successful for seeded barcode
+WEB-HOME-001|WEB|Landing page renders|P0|Marketing|Smoke|Hero content is visible
+WEB-LOGIN-001|WEB|Login page renders usable inputs|P0|Authentication|E2E|Email and password fields are visible
+WEB-REGISTER-001|WEB|Register page renders usable inputs|P0|Authentication|E2E|Registration fields are visible
+SEC-BASELINE-001|SECURITY|Website passive baseline scan|P0|Security Headers|Baseline|No FAIL-level ZAP alerts
+ANDROID-LAUNCH-001|ANDROID|Android app launches on emulator|P0|Mobile App|Smoke|App session starts successfully
+ANDROID-BARCODE-001|ANDROID|Barcode scan screen is reachable|P1|Mobile Scanner|E2E|Scan controls are visible
+PERF-BARCODE-001|PERFORMANCE|Barcode scan spike test|P0|Performance|Spike|p95 remains inside agreed budget
