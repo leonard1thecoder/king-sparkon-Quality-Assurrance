@@ -100,6 +100,15 @@ mvn -pl jmeter-performance-tests verify \
   -DdurationSeconds=60
 ```
 
+## GitHub Actions
+
+| Workflow | Purpose |
+| --- | --- |
+| `QA Framework Build` | Compiles Java QA modules on PRs. |
+| `QA API and Web Smoke` | Manual backend API + Selenium website smoke run. |
+| `Security ZAP Baseline` | Manual OWASP ZAP passive baseline scan. |
+| `JMeter Performance Tests` | Manual backend performance run. |
+
 ## Test strategy docs
 
 - [`docs/qa-framework-plan.md`](docs/qa-framework-plan.md)
