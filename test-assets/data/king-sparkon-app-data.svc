@@ -1,0 +1,13 @@
+key|value|description
+backend.baseUrl|http://localhost:8080|Default local Spring Boot backend URL
+frontend.baseUrl|http://localhost:3000|Default local Next.js website URL
+selenium.browser|chrome|Default Selenium browser
+selenium.headless|true|Run browser headless in CI
+appium.serverUrl|http://127.0.0.1:4723|Default local Appium server URL
+appium.deviceName|Android Emulator|Default Android emulator name
+appium.platformName|Android|Mobile platform name
+appium.automationName|UiAutomator2|Android automation engine
+appium.appPackage|com.kingsparkon.tracker|Placeholder Android package name
+appium.appActivity|.MainActivity|Placeholder Android launch activity
+barcode.sample|6009801234567|Seeded barcode value for tests
+worker.sampleId|1001|Seeded worker ID for scanner tests
