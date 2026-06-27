@@ -30,7 +30,7 @@ jobs:
 
       - name: Run ZAP baseline scan
         run: |
-          mvn -B -pl security-tests -Pzap-baseline verify \
+          mvn -B -am -pl security-tests -Pzap-baseline verify \
             -Dsecurity.targetUrl="${{ inputs.target_url }}" \
             -Dzap.minutes="${{ inputs.minutes }}"
 
@@ -39,5 +39,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: zap-baseline-reports
-          path: security-tests/target/zap
+          path: |
+            security-tests/target/zap
+            security-tests/target/qa-report
           if-no-files-found: warn
