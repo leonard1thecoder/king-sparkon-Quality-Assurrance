@@ -35,7 +35,7 @@ class LoginRegisterUiTest {
 
         List<WebElement> inputs = driver.findElements(By.cssSelector("input"));
         assertThat(inputs).as("Login page should have input fields").isNotEmpty();
-        assertThat(driver.findElements(By.cssSelector("input[type='email'], input[name*='email' i], input[placeholder*='email' i]")))
+        assertThat(driver.findElements(By.cssSelector("input[type='email'], input[name*='email'], input[placeholder*='Email'], input[placeholder*='email']")))
                 .as("Login page should expose an email input")
                 .isNotEmpty();
         assertThat(driver.findElements(By.cssSelector("input[type='password']")))
@@ -54,7 +54,7 @@ class LoginRegisterUiTest {
         new WebDriverWait(driver, Duration.ofSeconds(15))
                 .until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("input")));
 
-        assertThat(driver.findElements(By.cssSelector("input[type='email'], input[name*='email' i], input[placeholder*='email' i]")))
+        assertThat(driver.findElements(By.cssSelector("input[type='email'], input[name*='email'], input[placeholder*='Email'], input[placeholder*='email']")))
                 .as("Register page should expose an email input")
                 .isNotEmpty();
         assertThat(driver.findElements(By.cssSelector("input[type='password']")))
