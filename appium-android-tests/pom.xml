@@ -13,6 +13,17 @@
 
     <name>King Sparkon Tracker - Appium Android Tests</name>
 
+    <properties>
+        <appium.serverUrl>http://127.0.0.1:4723</appium.serverUrl>
+        <appium.platformName>Android</appium.platformName>
+        <appium.platformVersion></appium.platformVersion>
+        <appium.deviceName>Android Emulator</appium.deviceName>
+        <appium.automationName>UiAutomator2</appium.automationName>
+        <appium.app></appium.app>
+        <appium.appPackage></appium.appPackage>
+        <appium.appActivity></appium.appActivity>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
