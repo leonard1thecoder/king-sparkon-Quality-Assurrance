@@ -4,11 +4,47 @@
 
 | Module | Testing layer | Main tool |
 | --- | --- | --- |
+| `qa-core-framework` | Shared MVC framework and reports | Java records, TestBuilder, HTML report view |
 | `backend-api-tests` | Backend API regression | REST Assured + JUnit 5 |
 | `selenium-web-e2e-tests` | Website end-to-end | Selenium WebDriver + JUnit 5 |
 | `security-tests` | Passive web/API security baseline | OWASP ZAP Baseline Scan |
 | `appium-android-tests` | Android mobile automation | Appium Java Client + JUnit 5 |
 | `jmeter-performance-tests` | Backend load/performance | Apache JMeter |
+
+## MVC convention
+
+| Layer | Package | Responsibility |
+| --- | --- | --- |
+| Model | `model` | Entities such as scenario models, test case models, status, and response objects. |
+| View | `view` | Service-side test logic. View classes implement `TestBuilder` and return `TestExecutionResponse`. |
+| Controller | `controller` | JUnit `@Test` classes. Controllers call views, assert status, and write HTML reports. |
+
+The shared build contract is:
+
+```java
+public interface TestBuilder {
+    TestExecutionResponse buildTest();
+}
+```
+
+## HTML report output
+
+Controller tests write module reports under:
+
+```text
+target/qa-report/*.html
+```
+
+The shared report has:
+
+- Total duration.
+- Test case name field.
+- Passed tests count.
+- Failed tests count.
+- Overall coverage/pass percentage.
+- Interactive passed-vs-failed pie chart.
+- Hover tooltip with passed/failed percentage.
+- Detail table with test case ID, scenario, test case name, description, status, duration, and error.
 
 ## Tooling decisions
 
