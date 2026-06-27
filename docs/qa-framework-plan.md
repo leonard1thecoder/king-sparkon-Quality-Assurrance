@@ -10,13 +10,22 @@
 | `appium-android-tests` | Android mobile automation | Appium Java Client + JUnit 5 |
 | `jmeter-performance-tests` | Backend load/performance | Apache JMeter |
 
-## Why this stack
+## Tooling decisions
 
 - **REST Assured** is strong for Java API tests and keeps backend regression tests close to Spring Boot engineering style.
-- **Selenium WebDriver** is the preferred choice here because you asked for Selenium driver and it supports local and remote browser execution.
+- **Selenium WebDriver** is used because the project preference is Selenium driver and it supports local and remote browser execution.
 - **OWASP ZAP Baseline** gives safe passive security checks for CI before deeper active security testing.
 - **Appium** gives Android automation that can later target the barcode scanner mobile app.
 - **JMeter** remains dedicated to performance, not functional UI testing.
+
+## Version choices
+
+| Tool | Version in parent POM | Why |
+| --- | ---: | --- |
+| Selenium Java | `4.44.0` | Stable Selenium Java release listed by Selenium downloads. |
+| Appium Java Client | `10.1.1` | Current Appium Java client release line compatible with Selenium 4.44. |
+| REST Assured | `5.5.7` | Stable Java API testing line before adopting REST Assured 6. |
+| JMeter | `5.6.3` | Stable JMeter runtime supported by the Maven plugin. |
 
 ## Test data strategy
 
@@ -33,7 +42,8 @@ WEB-LOGIN-001|WEB|Login page renders|P0|Authentication|Email and password fields
 
 | Stage | Run |
 | --- | --- |
-| Pull request smoke | API public smoke, Selenium public page smoke |
+| Pull request smoke | Compile Java QA modules |
+| Manual smoke | API public smoke, Selenium public page smoke |
 | Nightly | Full API regression, Web E2E, ZAP baseline |
 | Release candidate | API + Web + Android emulator + JMeter baseline |
 | Controlled window | Stress, spike, active security scans |
