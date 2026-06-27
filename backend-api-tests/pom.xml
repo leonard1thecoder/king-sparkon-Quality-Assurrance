@@ -13,6 +13,11 @@
 
     <name>King Sparkon Tracker - Backend API Tests</name>
 
+    <properties>
+        <api.baseUrl>http://localhost:8080</api.baseUrl>
+        <api.authToken></api.authToken>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
