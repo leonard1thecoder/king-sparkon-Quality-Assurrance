@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.king_sparkon_tracker.qa</groupId>
+    <artifactId>king-sparkon-quality-assurance</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>King Sparkon Quality Assurance</name>
+    <description>Multi-module QA automation workspace for King Sparkon Tracker.</description>
+
+    <modules>
+        <module>jmeter-performance-tests</module>
+    </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.release>21</maven.compiler.release>
+        <jmeter.maven.plugin.version>3.8.0</jmeter.maven.plugin.version>
+        <jmeter.version>5.6.3</jmeter.version>
+    </properties>
+</project>
