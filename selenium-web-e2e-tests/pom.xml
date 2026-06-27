@@ -13,6 +13,13 @@
 
     <name>King Sparkon Tracker - Selenium Web E2E Tests</name>
 
+    <properties>
+        <ui.baseUrl>http://localhost:3000</ui.baseUrl>
+        <ui.browser>chrome</ui.browser>
+        <ui.headless>true</ui.headless>
+        <selenium.remoteUrl></selenium.remoteUrl>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
