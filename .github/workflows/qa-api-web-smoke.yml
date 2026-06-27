@@ -1,0 +1,65 @@
+name: QA API and Web Smoke
+
+on:
+  workflow_dispatch:
+    inputs:
+      backend_url:
+        description: Backend API URL
+        required: true
+        default: http://localhost:8080
+      frontend_url:
+        description: Website frontend URL
+        required: true
+        default: http://localhost:3000
+      api_auth_token:
+        description: Optional backend auth token
+        required: false
+        default: ''
+      browser:
+        description: Selenium browser
+        required: true
+        default: chrome
+        type: choice
+        options:
+          - chrome
+          - firefox
+          - edge
+
+jobs:
+  api-and-web-smoke:
+    name: API and Selenium smoke
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout QA repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - name: Run backend API tests
+        run: |
+          mvn -B -pl backend-api-tests test \
+            -Dapi.baseUrl="${{ inputs.backend_url }}" \
+            -Dapi.authToken="${{ inputs.api_auth_token }}"
+
+      - name: Run Selenium website tests
+        run: |
+          mvn -B -pl selenium-web-e2e-tests test \
+            -Dui.baseUrl="${{ inputs.frontend_url }}" \
+            -Dui.browser="${{ inputs.browser }}" \
+            -Dui.headless=true
+
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-api-web-smoke-reports
+          path: |
+            backend-api-tests/target/surefire-reports
+            selenium-web-e2e-tests/target/surefire-reports
+          if-no-files-found: warn
