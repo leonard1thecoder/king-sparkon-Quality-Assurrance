@@ -1,0 +1,27 @@
+name: QA Framework Build
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-test-modules:
+    name: Compile QA modules
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout QA repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - name: Compile Java test modules
+        run: |
+          mvn -B -pl backend-api-tests,selenium-web-e2e-tests,appium-android-tests -DskipTests package
