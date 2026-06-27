@@ -22,6 +22,6 @@ jobs:
           java-version: '21'
           cache: maven
 
-      - name: Compile Java test modules
+      - name: Compile Java QA modules
         run: |
-          mvn -B -pl backend-api-tests,selenium-web-e2e-tests,appium-android-tests -DskipTests package
+          mvn -B -pl qa-core-framework,backend-api-tests,selenium-web-e2e-tests,security-tests,appium-android-tests -DskipTests package
