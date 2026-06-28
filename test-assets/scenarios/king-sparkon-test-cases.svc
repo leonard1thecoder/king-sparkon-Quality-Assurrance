@@ -2,10 +2,27 @@ id|layer|scenario|priority|appArea|testType|expectedResult
 API-HEALTH-001|API|Backend health endpoint is reachable|P0|Operations|Smoke|Returns HTTP 200
 API-DOCS-001|API|OpenAPI documentation is reachable|P1|Developer Experience|Smoke|Returns HTTP 200
 API-BARCODE-001|API|Barcode scan request is accepted|P0|Barcode Scanner|Regression|Scan response is successful for seeded barcode
+AUTH-LOGIN-001|API|Valid user can login|P0|Authentication|Regression|Access token is returned
+AUTH-LOGIN-NEG-001|API|Invalid password is rejected|P0|Authentication|Negative|Request is rejected without secret leakage
 WEB-HOME-001|WEB|Landing page renders|P0|Marketing|Smoke|Hero content is visible
 WEB-LOGIN-001|WEB|Login page renders usable inputs|P0|Authentication|E2E|Email and password fields are visible
 WEB-REGISTER-001|WEB|Register page renders usable inputs|P0|Authentication|E2E|Registration fields are visible
+WEB-FOOTER-SOCIALS-001|WEB|Footer exposes professional social links|P1|Footer|E2E|Facebook Instagram X LinkedIn and GitHub links are visible
+WEB-SCANNER-001|WEB|Barcode scanner page accepts seeded barcode|P0|Barcode Scanner|E2E|Scanner controls and result state are visible
+PRODUCT-CATALOG-001|PRODUCT|Product catalogue should return active products|P0|Product Catalogue|Definition|Active products have id name barcode status and price
+PRODUCT-BARCODE-LOOKUP-001|PRODUCT|Barcode lookup resolves product|P0|Barcode Lookup|Definition|Known barcode maps to correct product
+PRODUCT-INVENTORY-001|PRODUCT|Inventory status is visible|P0|Inventory|Definition|Inventory shows available low-stock and unavailable states
+PRODUCT-PRICING-001|PRODUCT|Product price is safe and visible|P0|Pricing|Definition|Price is numeric and non-negative
+TIPS-QR-001|API|Worker QR code resolves tip route|P0|Tips|Regression|QR URL contains worker identifier and safe payment route
+TIPS-PAYMENT-LINK-001|API|Manual tip creates Stripe payment link|P0|Tips|Regression|Payment link is created with 9 percent platform retention
+TIPS-WHATSAPP-001|API|WhatsApp referral link can be sent|P1|Tips|Integration|WhatsApp provider accepts request or returns configured skip
+TIPS-EMAIL-001|API|Email payment link can be sent|P1|Tips|Integration|Email provider accepts request or returns configured skip
+WORKER-TIPS-001|WEB|Worker tip page renders with payment CTA|P0|Tips|E2E|Worker tip page displays amount and CTA controls
 SEC-BASELINE-001|SECURITY|Website passive baseline scan|P0|Security Headers|Baseline|No FAIL-level ZAP alerts
 ANDROID-LAUNCH-001|ANDROID|Android app launches on emulator|P0|Mobile App|Smoke|App session starts successfully
 ANDROID-BARCODE-001|ANDROID|Barcode scan screen is reachable|P1|Mobile Scanner|E2E|Scan controls are visible
+PERF-HEALTH-001|PERFORMANCE|Backend health responds under SLA|P0|Operations|Smoke|p95 remains inside configured maxResponseMs
+PERF-API-MIX-001|PERFORMANCE|Core API endpoints sustain load|P0|Backend API|Load|Error rate remains acceptable and p95 under SLA
+PERF-WEB-PAGES-001|PERFORMANCE|Frontend pages sustain basic load|P1|Web UI|Load|Pages return expected status under configured load
 PERF-BARCODE-001|PERFORMANCE|Barcode scan spike test|P0|Performance|Spike|p95 remains inside agreed budget
+PERF-TIPS-CHECKOUT-001|PERFORMANCE|Tip payment-link workflow sustains load|P1|Tips|Load|Payment-link endpoint remains stable without duplicate tips
