@@ -12,12 +12,15 @@
     <packaging>pom</packaging>
 
     <name>King Sparkon Tracker - JMeter Performance Tests</name>
-    <description>JMeter smoke, load, and barcode scan performance tests for the King Sparkon Tracker backend.</description>
+    <description>JMeter smoke, load, spike, web-page, tips, barcode, and whole-project performance tests for King Sparkon Tracker.</description>
 
     <properties>
         <targetProtocol>http</targetProtocol>
         <targetHost>localhost</targetHost>
         <targetPort>8080</targetPort>
+        <webProtocol>http</webProtocol>
+        <webHost>localhost</webHost>
+        <webPort>3000</webPort>
         <threads>10</threads>
         <rampUpSeconds>30</rampUpSeconds>
         <durationSeconds>60</durationSeconds>
@@ -25,7 +28,10 @@
         <maxResponseMs>1500</maxResponseMs>
         <authToken></authToken>
         <endpointCsv>src/test/resources/data/api-endpoints.csv</endpointCsv>
+        <webPageCsv>src/test/resources/data/web-pages.csv</webPageCsv>
         <barcodeCsv>src/test/resources/data/barcode-scan-payloads.csv</barcodeCsv>
+        <tipsCsv>src/test/resources/data/tips-performance-payloads.csv</tipsCsv>
+        <projectSuiteCsv>src/test/resources/data/project-performance-suite.csv</projectSuiteCsv>
         <barcodeScanPath>/api/v1/barcodes/scan</barcodeScanPath>
         <expectedBarcodeStatus>200</expectedBarcodeStatus>
     </properties>
@@ -59,11 +65,16 @@
                         <jMeterTestFile>king-sparkon-backend-health.jmx</jMeterTestFile>
                         <jMeterTestFile>king-sparkon-backend-api-load.jmx</jMeterTestFile>
                         <jMeterTestFile>king-sparkon-barcode-scan-spike.jmx</jMeterTestFile>
+                        <jMeterTestFile>king-sparkon-web-pages-load.jmx</jMeterTestFile>
+                        <jMeterTestFile>king-sparkon-whole-project-performance.jmx</jMeterTestFile>
                     </testFilesIncluded>
                     <propertiesUser>
                         <protocol>${targetProtocol}</protocol>
                         <host>${targetHost}</host>
                         <port>${targetPort}</port>
+                        <webProtocol>${webProtocol}</webProtocol>
+                        <webHost>${webHost}</webHost>
+                        <webPort>${webPort}</webPort>
                         <threads>${threads}</threads>
                         <rampUp>${rampUpSeconds}</rampUp>
                         <duration>${durationSeconds}</duration>
@@ -71,7 +82,10 @@
                         <maxResponseMs>${maxResponseMs}</maxResponseMs>
                         <authToken>${authToken}</authToken>
                         <endpointCsv>${endpointCsv}</endpointCsv>
+                        <webPageCsv>${webPageCsv}</webPageCsv>
                         <barcodeCsv>${barcodeCsv}</barcodeCsv>
+                        <tipsCsv>${tipsCsv}</tipsCsv>
+                        <projectSuiteCsv>${projectSuiteCsv}</projectSuiteCsv>
                         <barcodeScanPath>${barcodeScanPath}</barcodeScanPath>
                         <expectedBarcodeStatus>${expectedBarcodeStatus}</expectedBarcodeStatus>
                     </propertiesUser>
