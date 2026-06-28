@@ -1,0 +1,61 @@
+name: REST Business Flow QA
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'backend-api-tests/**'
+      - 'test-assets/**'
+      - '.github/workflows/rest-business-flow-ci.yml'
+  workflow_dispatch:
+    inputs:
+      backend_url:
+        description: Backend API URL
+        required: true
+        default: http://localhost:8080
+      execute_rest_flows:
+        description: Execute real REST calls instead of definition-only validation
+        required: true
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
+      api_auth_token:
+        description: Optional backend bearer token for secured REST flows
+        required: false
+        default: ''
+
+jobs:
+  rest-business-definition:
+    name: REST business definition and smoke gate
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout QA repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - name: Run REST smoke and API definition gates
+        run: |
+          mvn -B -am -pl backend-api-tests test \
+            -Dapi.baseUrl="${{ inputs.backend_url || 'http://localhost:8080' }}" \
+            -Dapi.executeRestFlows="${{ inputs.execute_rest_flows || 'false' }}" \
+            -Dapi.authToken="${{ inputs.api_auth_token || '' }}"
+
+      - name: Upload REST business reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rest-business-flow-reports
+          path: |
+            backend-api-tests/target/surefire-reports
+            backend-api-tests/target/qa-report
+          if-no-files-found: warn
