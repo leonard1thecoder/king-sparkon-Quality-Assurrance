@@ -78,6 +78,14 @@ jobs:
             -DauthToken="${{ inputs.api_auth_token }}" \
             -DrestBusinessEndpointCsv="src/test/resources/data/rest-business-flow-endpoints.csv"
 
+      - name: Publish REST business performance pass/fail summary
+        if: always()
+        run: |
+          python3 .github/scripts/qa-suite-summary.py \
+            --title "REST Business Performance Results" \
+            --jmeter "jmeter-performance-tests/target/**/*.jtl" \
+            --jmeter "jmeter-performance-tests/target/**/*.xml"
+
       - name: Upload REST business performance reports
         if: always()
         uses: actions/upload-artifact@v4
