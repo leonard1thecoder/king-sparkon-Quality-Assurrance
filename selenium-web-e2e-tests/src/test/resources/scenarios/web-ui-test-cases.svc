@@ -5,3 +5,6 @@ WEB-REGISTER-001|Register page renders|/register|Register|false
 WEB-DASHBOARD-001|Dashboard page renders|/dashboard|Dashboard|true
 WEB-TIPS-001|Tips worker page renders|/tips/workers/1001|Tip|false
 WEB-BARCODE-001|Barcode scanner page renders|/scanner|Barcode|true
+WEB-PRODUCTS-001|Product catalogue page renders|/products|Product|true
+WEB-PRODUCT-SEARCH-001|Product search page supports barcode lookup|/products|Barcode|true
+WEB-PRODUCT-DASHBOARD-001|Dashboard exposes product summary|/dashboard|Product|true
