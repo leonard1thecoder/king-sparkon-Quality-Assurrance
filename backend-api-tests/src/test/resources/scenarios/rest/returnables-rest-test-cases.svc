@@ -1,0 +1,14 @@
+id|domain|caseType|name|method|path|body|expectedStatus|requiresAuth|priority|expectedBodyContains
+RETURNABLES-CREATE-201|RETURNABLES|POSITIVE|Create returnable record|POST|/api/v1/returnables|{"companyProductId":501,"quantity":2,"source":"QA_AUTOMATION"}|200,201|true|P0|
+RETURNABLES-CREATE-MISSING-PRODUCT-400|RETURNABLES|NEGATIVE|Reject returnable without product|POST|/api/v1/returnables|{"quantity":2}|400|true|P0|
+RETURNABLES-CREATE-NEGATIVE-QTY-400|RETURNABLES|NEGATIVE|Reject negative returnable quantity|POST|/api/v1/returnables|{"companyProductId":501,"quantity":-2}|400|true|P0|
+RETURNABLES-CREATE-ZERO-QTY-400|RETURNABLES|NEGATIVE|Reject zero returnable quantity|POST|/api/v1/returnables|{"companyProductId":501,"quantity":0}|400|true|P0|
+RETURNABLES-LIST-200|RETURNABLES|POSITIVE|List returnables|GET|/api/v1/returnables||200|true|P0|
+RETURNABLES-GET-200|RETURNABLES|POSITIVE|Get returnable by id|GET|/api/v1/returnables/8001||200|true|P0|
+RETURNABLES-GET-NOT-FOUND-404|RETURNABLES|NEGATIVE|Reject unknown returnable lookup|GET|/api/v1/returnables/999999||404|true|P0|
+RETURNABLES-MARK-RETURNED-200|RETURNABLES|POSITIVE|Mark returnable as returned|PATCH|/api/v1/returnables/8001/returned|{"receivedBy":"owner-qa"}|200|true|P0|
+RETURNABLES-MARK-RETURNED-NOT-FOUND-404|RETURNABLES|NEGATIVE|Reject return update for missing returnable|PATCH|/api/v1/returnables/999999/returned|{"receivedBy":"owner-qa"}|404|true|P0|
+RETURNABLES-MARK-RETURNED-DUPLICATE-409|RETURNABLES|NEGATIVE|Reject duplicate returned status|PATCH|/api/v1/returnables/8001/returned|{"receivedBy":"owner-qa"}|409|true|P1|
+RETURNABLES-REFUND-PREVIEW-200|RETURNABLES|POSITIVE|Preview returnable refund|POST|/api/v1/returnables/refund-preview|{"companyProductId":501,"quantity":2}|200|true|P1|
+RETURNABLES-REFUND-PREVIEW-BAD-QTY-400|RETURNABLES|NEGATIVE|Reject refund preview with bad quantity|POST|/api/v1/returnables/refund-preview|{"companyProductId":501,"quantity":-1}|400|true|P1|
+RETURNABLES-UNAUTH-401|RETURNABLES|NEGATIVE|Reject unauthenticated returnables request|GET|/api/v1/returnables||401,403|false|P0|
