@@ -3,6 +3,7 @@ package com.king_sparkon_tracker.qa.android.view;
 import com.king_sparkon_tracker.qa.android.AndroidDriverFactory;
 import com.king_sparkon_tracker.qa.android.AppiumConfig;
 import com.king_sparkon_tracker.qa.core.model.TestCaseModel;
+import com.king_sparkon_tracker.qa.core.model.TestStepModel;
 import com.king_sparkon_tracker.qa.core.model.locator.ElementLocatorModel;
 import com.king_sparkon_tracker.qa.core.model.screenshot.ScreenshotArtifact;
 import com.king_sparkon_tracker.qa.core.model.screenshot.ScreenshotUploadResult;
@@ -16,6 +17,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -44,6 +46,18 @@ public class AppiumScreenshotTestView extends AbstractTestView {
         this.locatorResolver = locatorResolver;
         this.screenshotFileWriter = screenshotFileWriter;
         this.uploader = uploader;
+    }
+
+    @Override
+    protected List<TestStepModel> endToEndSteps() {
+        return List.of(
+                step(1, "Start Appium Android session", "Android app session is available"),
+                step(2, "Resolve mobile locator " + locator.strategy() + " = " + locator.locatorValue(), "Target mobile element is found"),
+                step(3, "Validate expected text when configured", "Mobile element content matches expected text"),
+                step(4, "Capture Android PNG screenshot", "Screenshot is saved locally under target/qa-screenshots"),
+                step(5, "Upload screenshot to Supabase when enabled", "Report contains Supabase public URL or local-only message"),
+                step(6, "Quit Appium session", "Device session is cleaned up")
+        );
     }
 
     @Override

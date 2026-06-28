@@ -1,0 +1,14 @@
+release,epic,feature_id,feature_name,priority,automation_layer,manual_review_required,status
+0.1,QA Framework,KST-QA-001,MVC QA framework,P0,Core,false,Planned
+0.1,QA Framework,KST-QA-002,HTML report with pass fail coverage pie chart,P0,Core,false,Planned
+0.1,QA Framework,KST-QA-003,Selenium screenshot Supabase upload,P0,Selenium,true,Planned
+0.1,QA Framework,KST-QA-004,Appium screenshot Supabase upload,P1,Appium,true,Planned
+0.2,Backend API,KST-API-001,Health and OpenAPI readiness,P0,REST Assured,false,Planned
+0.2,Barcode,KST-API-002,Barcode scan API regression,P0,REST Assured and JMeter,false,Planned
+0.3,Web UI,KST-WEB-001,Landing page smoke and screenshot,P0,Selenium,false,Planned
+0.3,Auth,KST-WEB-002,Login and register page E2E,P0,Selenium,false,Planned
+0.4,Tips,KST-TIPS-001,Worker QR tip page,P0,Selenium and REST Assured,true,Planned
+0.4,Payments,KST-PAY-001,Stripe sandbox payment link,P0,REST Assured,true,Planned
+0.5,Android,KST-AND-001,Android app launch,P0,Appium,false,Planned
+0.5,Android,KST-AND-002,Android barcode scan screen,P1,Appium,true,Planned
+1.0,Release,KST-REL-001,Production candidate evidence gate,P0,All,true,Planned
