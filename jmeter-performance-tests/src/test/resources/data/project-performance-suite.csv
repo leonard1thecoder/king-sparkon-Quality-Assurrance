@@ -1,0 +1,7 @@
+suiteId,module,scenario,priority,loadProfile,target,threads,rampUpSeconds,durationSeconds,maxResponseMs,qualityGate
+PERF-HEALTH-001,backend-api,Health endpoint smoke,P0,smoke,/actuator/health,5,10,30,750,p95 under 750ms and zero errors
+PERF-API-MIX-001,backend-api,Core API mixed load,P0,load,api-endpoints.csv,10,30,60,1500,p95 under 1500ms and controlled status codes
+PERF-WEB-PAGES-001,next-web,Frontend page load,P1,load,web-pages.csv,10,30,60,2000,all key pages return expected status
+PERF-BARCODE-001,barcode,Barcode scan spike,P0,spike,/api/v1/barcodes/scan,25,10,60,1200,barcode scan p95 under 1200ms
+PERF-TIPS-CHECKOUT-001,tips,Tip payment-link load,P1,load,/api/v1/tips/payment-link,10,20,60,1800,no duplicate tip creation and p95 under 1800ms
+PERF-SOAK-001,whole-project,Whole project short soak,P2,soak,api and web mix,8,60,300,2000,no memory-leak signal and stable error rate
