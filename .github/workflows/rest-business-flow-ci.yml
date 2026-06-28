@@ -7,6 +7,7 @@ on:
     paths:
       - 'backend-api-tests/**'
       - 'test-assets/**'
+      - '.github/scripts/qa-suite-summary.py'
       - '.github/workflows/rest-business-flow-ci.yml'
   workflow_dispatch:
     inputs:
@@ -62,6 +63,14 @@ jobs:
             -Dapi.baseUrl="${{ steps.rest_settings.outputs.backend_url }}" \
             -Dapi.executeRestFlows="${{ steps.rest_settings.outputs.execute_rest_flows }}" \
             -Dapi.authToken="${{ github.event.inputs.api_auth_token }}"
+
+      - name: Publish REST business pass/fail summary
+        if: always()
+        run: |
+          python3 .github/scripts/qa-suite-summary.py \
+            --title "REST Business Flow QA Results" \
+            --junit "backend-api-tests/target/surefire-reports/TEST-*.xml" \
+            --qa-html "backend-api-tests/target/qa-report/*.html"
 
       - name: Upload REST business reports
         if: always()
