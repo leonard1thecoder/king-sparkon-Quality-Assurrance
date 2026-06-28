@@ -1,0 +1,74 @@
+name: Appium Android Screenshots
+
+on:
+  workflow_dispatch:
+    inputs:
+      appium_server_url:
+        description: Appium server URL
+        required: true
+        default: http://127.0.0.1:4723
+      device_name:
+        description: Android emulator or device name
+        required: true
+        default: Android Emulator
+      platform_version:
+        description: Android platform version
+        required: false
+        default: '15'
+      app_package:
+        description: Android app package
+        required: false
+        default: com.kingsparkon.tracker
+      app_activity:
+        description: Android launch activity
+        required: false
+        default: .MainActivity
+      upload_to_supabase:
+        description: Upload Appium screenshots to Supabase Storage
+        required: true
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
+
+jobs:
+  appium-screenshots:
+    name: Appium screenshot run
+    runs-on: ubuntu-latest
+    env:
+      SUPABASE_UPLOAD_ENABLED: ${{ inputs.upload_to_supabase }}
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_BUCKET: ${{ secrets.SUPABASE_BUCKET }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+
+    steps:
+      - name: Checkout QA repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - name: Run Appium Android screenshot tests
+        run: |
+          mvn -B -am -pl appium-android-tests test \
+            -Dappium.serverUrl="${{ inputs.appium_server_url }}" \
+            -Dappium.deviceName="${{ inputs.device_name }}" \
+            -Dappium.platformVersion="${{ inputs.platform_version }}" \
+            -Dappium.appPackage="${{ inputs.app_package }}" \
+            -Dappium.appActivity="${{ inputs.app_activity }}"
+
+      - name: Upload Appium reports and screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: appium-android-screenshot-reports
+          path: |
+            appium-android-tests/target/surefire-reports
+            appium-android-tests/target/qa-report
+            appium-android-tests/target/qa-screenshots
+          if-no-files-found: warn
