@@ -1,16 +1,16 @@
 id|domain|caseType|name|method|path|body|expectedStatus|requiresAuth|priority|expectedBodyContains
-TRANSACTIONS-CREATE-201|TRANSACTIONS|POSITIVE|Create transaction|POST|/api/v1/transactions|{"orderId":3001,"amount":100.00,"method":"CARD","transactionReference":"qa-txn-3001"}|200,201|true|P0|
-TRANSACTIONS-CREATE-MISSING-ORDER-400|TRANSACTIONS|NEGATIVE|Reject transaction without order|POST|/api/v1/transactions|{"amount":100.00,"method":"CARD","transactionReference":"qa-txn-missing-order"}|400|true|P0|
-TRANSACTIONS-CREATE-NEGATIVE-AMOUNT-400|TRANSACTIONS|NEGATIVE|Reject negative transaction amount|POST|/api/v1/transactions|{"orderId":3001,"amount":-100.00,"method":"CARD","transactionReference":"qa-txn-negative"}|400|true|P0|
-TRANSACTIONS-CREATE-MISSING-METHOD-400|TRANSACTIONS|NEGATIVE|Reject transaction without method|POST|/api/v1/transactions|{"orderId":3001,"amount":100.00,"transactionReference":"qa-txn-missing-method"}|400|true|P0|
-TRANSACTIONS-CREATE-DUPLICATE-409|TRANSACTIONS|NEGATIVE|Reject duplicate transaction reference|POST|/api/v1/transactions|{"orderId":3001,"amount":100.00,"method":"CARD","transactionReference":"qa-txn-duplicate"}|409|true|P1|
-TRANSACTIONS-LIST-200|TRANSACTIONS|POSITIVE|List transactions|GET|/api/v1/transactions||200|true|P0|
-TRANSACTIONS-GET-200|TRANSACTIONS|POSITIVE|Get transaction by id|GET|/api/v1/transactions/3001||200|true|P0|
-TRANSACTIONS-GET-NOT-FOUND-404|TRANSACTIONS|NEGATIVE|Reject unknown transaction lookup|GET|/api/v1/transactions/999999||404|true|P0|
-TRANSACTIONS-RETRY-200|TRANSACTIONS|POSITIVE|Retry failed transaction|POST|/api/v1/transactions/3001/retry|{}|200,202|true|P1|
-TRANSACTIONS-RETRY-NOT-FOUND-404|TRANSACTIONS|NEGATIVE|Reject retry for missing transaction|POST|/api/v1/transactions/999999/retry|{}|404|true|P1|
-TRANSACTIONS-REFUND-200|TRANSACTIONS|POSITIVE|Refund transaction amount|POST|/api/v1/transactions/3001/refund|{"amount":10.00,"reason":"QA refund"}|200,202|true|P1|
-TRANSACTIONS-REFUND-BAD-AMOUNT-400|TRANSACTIONS|NEGATIVE|Reject refund with bad amount|POST|/api/v1/transactions/3001/refund|{"amount":-10.00,"reason":"QA refund"}|400|true|P1|
-TRANSACTIONS-EVENT-202|TRANSACTIONS|POSITIVE|Accept transaction provider event|POST|/api/v1/transactions/events|{"eventType":"PAYMENT_SUCCESS","reference":"qa-event-001"}|200,202|false|P1|
-TRANSACTIONS-EVENT-BAD-PAYLOAD-400|TRANSACTIONS|NEGATIVE|Reject malformed transaction event|POST|/api/v1/transactions/events|{"badPayload":true}|400,401|false|P1|
-TRANSACTIONS-UNAUTH-401|TRANSACTIONS|NEGATIVE|Reject unauthenticated transactions request|GET|/api/v1/transactions||401,403|false|P0|
+TRANSACTIONS-CREATE-201|TRANSACTIONS|POSITIVE|Create transaction|POST|/api/transactions|{"orderId":3001,"amount":100.00,"method":"CARD","transactionReference":"qa-txn-3001"}|200,201|true|P0|
+TRANSACTIONS-CREATE-MISSING-ORDER-400|TRANSACTIONS|NEGATIVE|Reject transaction without order|POST|/api/transactions|{"amount":100.00,"method":"CARD","transactionReference":"qa-txn-missing-order"}|400|true|P0|
+TRANSACTIONS-CREATE-NEGATIVE-AMOUNT-400|TRANSACTIONS|NEGATIVE|Reject negative transaction amount|POST|/api/transactions|{"orderId":3001,"amount":-100.00,"method":"CARD","transactionReference":"qa-txn-negative"}|400|true|P0|
+TRANSACTIONS-CREATE-MISSING-METHOD-400|TRANSACTIONS|NEGATIVE|Reject transaction without method|POST|/api/transactions|{"orderId":3001,"amount":100.00,"transactionReference":"qa-txn-missing-method"}|400|true|P0|
+TRANSACTIONS-CREATE-DUPLICATE-409|TRANSACTIONS|NEGATIVE|Reject duplicate transaction reference|POST|/api/transactions|{"orderId":3001,"amount":100.00,"method":"CARD","transactionReference":"qa-txn-duplicate"}|409|true|P1|
+TRANSACTIONS-LIST-200|TRANSACTIONS|POSITIVE|List transactions|GET|/api/transactions||200|true|P0|
+TRANSACTIONS-GET-200|TRANSACTIONS|POSITIVE|Get transaction by id|GET|/api/transactions/3001||200|true|P0|
+TRANSACTIONS-GET-NOT-FOUND-404|TRANSACTIONS|NEGATIVE|Reject unknown transaction lookup|GET|/api/transactions/999999||404|true|P0|
+TRANSACTIONS-WITHDRAWAL-200|TRANSACTIONS|POSITIVE|Request website-payment withdrawal|POST|/api/transactions/withdrawals|{"businessId":501,"requestedBy":"owner-qa"}|200,202|true|P1|
+TRANSACTIONS-WITHDRAWAL-BAD-AMOUNT-400|TRANSACTIONS|NEGATIVE|Reject invalid transaction withdrawal request|POST|/api/transactions/withdrawals|{"businessId":501,"amount":-10.00}|400|true|P1|
+TRANSACTIONS-REFUND-200|TRANSACTIONS|POSITIVE|Refund transaction amount|POST|/api/transactions/3001/refund|{"amount":10.00,"reason":"QA refund"}|200,202|true|P1|
+TRANSACTIONS-REFUND-BAD-AMOUNT-400|TRANSACTIONS|NEGATIVE|Reject refund with bad amount|POST|/api/transactions/3001/refund|{"amount":-10.00,"reason":"QA refund"}|400|true|P1|
+TRANSACTIONS-EVENT-202|TRANSACTIONS|POSITIVE|Accept transaction provider event|POST|/api/transactions/events|{"eventType":"PAYMENT_SUCCESS","reference":"qa-event-001"}|200,202|false|P1|
+TRANSACTIONS-EVENT-BAD-PAYLOAD-400|TRANSACTIONS|NEGATIVE|Reject malformed transaction event|POST|/api/transactions/events|{"badPayload":true}|400,401|false|P1|
+TRANSACTIONS-UNAUTH-401|TRANSACTIONS|NEGATIVE|Reject unauthenticated transactions request|GET|/api/transactions||401,403|false|P0|
