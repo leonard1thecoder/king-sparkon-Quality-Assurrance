@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.king_sparkon_tracker.qa</groupId>
+        <artifactId>king-sparkon-quality-assurance</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>jmeter-performance-tests</artifactId>
+    <packaging>pom</packaging>
+
+    <name>King Sparkon Tracker - JMeter Performance Tests</name>
+    <description>JMeter smoke, load, and barcode scan performance tests for the King Sparkon Tracker backend.</description>
+
+    <properties>
+        <targetProtocol>http</targetProtocol>
+        <targetHost>localhost</targetHost>
+        <targetPort>8080</targetPort>
+        <threads>10</threads>
+        <rampUpSeconds>30</rampUpSeconds>
+        <durationSeconds>60</durationSeconds>
+        <thinkTimeMs>250</thinkTimeMs>
+        <maxResponseMs>1500</maxResponseMs>
+        <authToken></authToken>
+        <endpointCsv>src/test/resources/data/api-endpoints.csv</endpointCsv>
+        <barcodeCsv>src/test/resources/data/barcode-scan-payloads.csv</barcodeCsv>
+        <barcodeScanPath>/api/v1/barcodes/scan</barcodeScanPath>
+        <expectedBarcodeStatus>200</expectedBarcodeStatus>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.lazerycode.jmeter</groupId>
+                <artifactId>jmeter-maven-plugin</artifactId>
+                <version>${jmeter.maven.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>configure-jmeter</id>
+                        <goals>
+                            <goal>configure</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>run-jmeter-tests</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>jmeter</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <jmeterVersion>${jmeter.version}</jmeterVersion>
+                    <testFilesDirectory>${project.basedir}/src/test/jmeter</testFilesDirectory>
+                    <resultsDirectory>${project.build.directory}/jmeter/results</resultsDirectory>
+                    <testFilesIncluded>
+                        <jMeterTestFile>king-sparkon-backend-health.jmx</jMeterTestFile>
+                        <jMeterTestFile>king-sparkon-backend-api-load.jmx</jMeterTestFile>
+                        <jMeterTestFile>king-sparkon-barcode-scan-spike.jmx</jMeterTestFile>
+                    </testFilesIncluded>
+                    <propertiesUser>
+                        <protocol>${targetProtocol}</protocol>
+                        <host>${targetHost}</host>
+                        <port>${targetPort}</port>
+                        <threads>${threads}</threads>
+                        <rampUp>${rampUpSeconds}</rampUp>
+                        <duration>${durationSeconds}</duration>
+                        <thinkTimeMs>${thinkTimeMs}</thinkTimeMs>
+                        <maxResponseMs>${maxResponseMs}</maxResponseMs>
+                        <authToken>${authToken}</authToken>
+                        <endpointCsv>${endpointCsv}</endpointCsv>
+                        <barcodeCsv>${barcodeCsv}</barcodeCsv>
+                        <barcodeScanPath>${barcodeScanPath}</barcodeScanPath>
+                        <expectedBarcodeStatus>${expectedBarcodeStatus}</expectedBarcodeStatus>
+                    </propertiesUser>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

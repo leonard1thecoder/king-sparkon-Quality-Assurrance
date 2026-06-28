@@ -1,0 +1,9 @@
+name|method|path|body|expectedStatus
+health|GET|/actuator/health||200
+openapi|GET|/v3/api-docs||200
+swagger-ui|GET|/swagger-ui.html||200
+current-user|GET|/api/v1/users/me||200
+products|GET|/api/v1/products||200
+inventory|GET|/api/v1/inventory||200
+reports-dashboard|GET|/api/v1/reports/dashboard||200
+barcode-scan|POST|/api/v1/barcodes/scan|{"barcode":"6009801234567","deviceId":"jmeter-device-001","source":"JMETER"}|200

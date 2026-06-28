@@ -1,0 +1,11 @@
+key|value|description
+platformName|Android|Android platform for Appium
+automationName|UiAutomator2|Recommended Android automation engine
+serverUrl|http://127.0.0.1:4723|Local Appium server URL
+deviceName|Android Emulator|Default emulator name
+appPackage|com.kingsparkon.tracker|Placeholder app package for future Android app
+appActivity|.MainActivity|Placeholder launch activity
+barcodeInputAccessibilityId|barcode-input|Accessibility ID for barcode input
+scanButtonAccessibilityId|scan-button|Accessibility ID for scan button
+scanResultAccessibilityId|scan-result|Accessibility ID for scan result text
+sampleBarcode|6009801234567|Seeded barcode for Android scanner test

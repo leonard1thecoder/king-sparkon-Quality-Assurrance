@@ -1,0 +1,5 @@
+id|pagePath|strategy|locatorValue|expectedText|description
+WEB-SCREEN-HOME-HERO|/|xpath|//body|King Sparkon|Capture landing page body through XPath
+WEB-SCREEN-LOGIN-FORM|/login|css|form||Capture login form through CSS selector
+WEB-SCREEN-REGISTER-FORM|/register|full-xpath|/html/body||Capture register page using full XPath example
+WEB-SCREEN-HOME-JS|/|js-path|return document.body|King Sparkon|Capture home page using JavaScript path

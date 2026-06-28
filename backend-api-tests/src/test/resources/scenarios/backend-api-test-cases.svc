@@ -1,0 +1,9 @@
+id|name|method|path|body|expectedStatus|requiresAuth
+API-HEALTH-001|Health check|GET|/actuator/health||200|false
+API-DOCS-001|OpenAPI docs|GET|/v3/api-docs||200|false
+API-SWAGGER-001|Swagger UI|GET|/swagger-ui.html||200|false
+API-ME-001|Current user profile|GET|/api/v1/users/me||200|true
+API-PRODUCTS-001|Product catalogue|GET|/api/v1/products||200|true
+API-INVENTORY-001|Inventory list|GET|/api/v1/inventory||200|true
+API-DASHBOARD-001|Dashboard report|GET|/api/v1/reports/dashboard||200|true
+API-BARCODE-001|Barcode scan|POST|/api/v1/barcodes/scan|{"barcode":"6009801234567","deviceId":"api-test-device-001","source":"REST_ASSURED"}|200|true

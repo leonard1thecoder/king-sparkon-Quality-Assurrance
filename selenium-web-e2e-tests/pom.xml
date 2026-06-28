@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.king_sparkon_tracker.qa</groupId>
+        <artifactId>king-sparkon-quality-assurance</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>selenium-web-e2e-tests</artifactId>
+    <packaging>jar</packaging>
+
+    <name>King Sparkon Tracker - Selenium Web E2E Tests</name>
+
+    <properties>
+        <ui.baseUrl>http://localhost:3000</ui.baseUrl>
+        <ui.browser>chrome</ui.browser>
+        <ui.headless>true</ui.headless>
+        <selenium.remoteUrl></selenium.remoteUrl>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.king_sparkon_tracker.qa</groupId>
+            <artifactId>qa-core-framework</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven.surefire.plugin.version}</version>
+                <configuration>
+                    <useModulePath>false</useModulePath>
+                    <includes>
+                        <include>**/controller/*Test.java</include>
+                    </includes>
+                    <systemPropertyVariables>
+                        <ui.baseUrl>${ui.baseUrl}</ui.baseUrl>
+                        <ui.browser>${ui.browser}</ui.browser>
+                        <ui.headless>${ui.headless}</ui.headless>
+                        <selenium.remoteUrl>${selenium.remoteUrl}</selenium.remoteUrl>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

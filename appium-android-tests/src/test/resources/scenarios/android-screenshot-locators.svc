@@ -1,0 +1,4 @@
+id|pagePath|strategy|locatorValue|expectedText|description
+ANDROID-SCREEN-LAUNCH|/|accessibility-id|app-root||Capture Android launch screen by accessibility id
+ANDROID-SCREEN-BARCODE-INPUT|/|accessibility-id|barcode-input||Capture barcode input by accessibility id
+ANDROID-SCREEN-SCAN-BUTTON|/|android-ui-automator|new UiSelector().description("scan-button")||Capture scan button using Android UiAutomator
