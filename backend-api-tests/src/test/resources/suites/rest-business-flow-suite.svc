@@ -1,0 +1,6 @@
+suiteId|suiteName|domain|priority|executionType|scenarioFile|qualityGate
+REST-TIPS-P0|Tips REST Positive and Negative Suite|TIPS|P0|Rest Assured matrix|scenarios/rest/tips-rest-test-cases.svc|Tips create list paid payment-link share and unauthorized paths must be covered
+REST-CLAIMS-P0|Claims REST Positive and Negative Suite|CLAIMS|P0|Rest Assured matrix|scenarios/rest/claims-rest-test-cases.svc|Claims create approve reject duplicate not-found and unauthorized paths must be covered
+REST-RETURNABLES-P0|Returnables REST Positive and Negative Suite|RETURNABLES|P0|Rest Assured matrix|scenarios/rest/returnables-rest-test-cases.svc|Returnables create list return refund-preview not-found duplicate and unauthorized paths must be covered
+REST-TRANSACTIONS-P0|Transactions REST Positive and Negative Suite|TRANSACTIONS|P0|Rest Assured matrix|scenarios/rest/transactions-rest-test-cases.svc|Transactions create retry refund event not-found duplicate and unauthorized paths must be covered
+REST-BUSINESS-FLOWS|Full REST Business Flow Regression Suite|ALL|P0|Rest Assured matrix|all rest scenario files|Every domain must contain at least one positive and one negative test case with SCV steps
