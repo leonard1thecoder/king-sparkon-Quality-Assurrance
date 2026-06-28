@@ -16,6 +16,7 @@
     <properties>
         <api.baseUrl>http://localhost:8080</api.baseUrl>
         <api.authToken></api.authToken>
+        <api.executeRestFlows>false</api.executeRestFlows>
     </properties>
 
     <dependencies>
@@ -60,6 +61,7 @@
                     <systemPropertyVariables>
                         <api.baseUrl>${api.baseUrl}</api.baseUrl>
                         <api.authToken>${api.authToken}</api.authToken>
+                        <api.executeRestFlows>${api.executeRestFlows}</api.executeRestFlows>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>
