@@ -1,0 +1,5 @@
+workerId,tipAmount,contact,channel,expectedStatus
+1001,25.00,qa.customer.one@example.com,EMAIL,200
+1002,50.00,+27821234567,WHATSAPP,200
+1003,10.00,qa.customer.three@example.com,EMAIL,200
+1004,75.00,+27827654321,WHATSAPP,200
