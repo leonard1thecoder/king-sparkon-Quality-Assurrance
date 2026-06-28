@@ -1,0 +1,21 @@
+stepId|testCaseId|order|actor|action|target|testData|expectedResult
+PRODUCT-CATALOG-001-S01|PRODUCT-CATALOG-001|1|QA_AUTOMATION|Send GET request or open catalogue UI|/api/v1/products or /products|authToken if required|Request is accepted
+PRODUCT-CATALOG-001-S02|PRODUCT-CATALOG-001|2|QA_AUTOMATION|Validate response fields|product list|id name barcode status price|Every product has required catalogue fields
+PRODUCT-DETAIL-001-S01|PRODUCT-DETAIL-001|1|QA_AUTOMATION|Select first active product|catalogue row|productId from catalogue|Product detail route or endpoint opens
+PRODUCT-DETAIL-001-S02|PRODUCT-DETAIL-001|2|QA_AUTOMATION|Validate product metadata|product detail|barcode stock price|Barcode stock and price values are present
+PRODUCT-SEARCH-001-S01|PRODUCT-SEARCH-001|1|QA_AUTOMATION|Search product catalogue|search input or query param|known product name|Matching products are returned
+PRODUCT-SEARCH-001-S02|PRODUCT-SEARCH-001|2|QA_AUTOMATION|Search unknown value|search input or query param|no-such-product-qa|Empty state is controlled and readable
+PRODUCT-BARCODE-LOOKUP-001-S01|PRODUCT-BARCODE-LOOKUP-001|1|QA_AUTOMATION|Submit known barcode|/api/v1/barcodes/scan|6009801234567|Barcode request returns success
+PRODUCT-BARCODE-LOOKUP-001-S02|PRODUCT-BARCODE-LOOKUP-001|2|QA_AUTOMATION|Validate matched product payload|barcode scan response|barcode and productId|Response maps barcode to correct product
+PRODUCT-BARCODE-NEG-001-S01|PRODUCT-BARCODE-NEG-001|1|QA_AUTOMATION|Submit unknown barcode|/api/v1/barcodes/scan|0000000000000|Request does not return 500
+PRODUCT-BARCODE-NEG-001-S02|PRODUCT-BARCODE-NEG-001|2|QA_AUTOMATION|Validate error message|barcode scan response|unknown barcode|User-safe not-found message is returned
+PRODUCT-INVENTORY-001-S01|PRODUCT-INVENTORY-001|1|QA_AUTOMATION|Open inventory endpoint or dashboard widget|/api/v1/inventory|authToken if required|Inventory data is returned
+PRODUCT-INVENTORY-001-S02|PRODUCT-INVENTORY-001|2|QA_AUTOMATION|Validate stock state values|inventory result|available low_stock unavailable|Known stock states are represented
+PRODUCT-STOCK-RISK-001-S01|PRODUCT-STOCK-RISK-001|1|QA_AUTOMATION|Seed or locate low-stock product|inventory fixture|quantity below threshold|Low-stock product exists for test
+PRODUCT-STOCK-RISK-001-S02|PRODUCT-STOCK-RISK-001|2|QA_AUTOMATION|Validate warning state|inventory UI or API response|low_stock|Operator can see stock risk clearly
+PRODUCT-PRICING-001-S01|PRODUCT-PRICING-001|1|QA_AUTOMATION|Read product price|catalogue response|known product|Price is present
+PRODUCT-PRICING-001-S02|PRODUCT-PRICING-001|2|QA_AUTOMATION|Validate price format and range|price field|numeric value|Price is numeric and non-negative
+PRODUCT-PRICING-LATE-001-S01|PRODUCT-PRICING-LATE-001|1|QA_AUTOMATION|Read late-night pricing fields|product pricing metadata|lateNightPriceStatus|Late-night status is explicit
+PRODUCT-PRICING-LATE-001-S02|PRODUCT-PRICING-LATE-001|2|QA_AUTOMATION|Compare base and adjusted price|product pricing metadata|base price and late-night increase|Base price remains auditable
+PRODUCT-DASHBOARD-001-S01|PRODUCT-DASHBOARD-001|1|QA_AUTOMATION|Open dashboard report|/api/v1/reports/dashboard|authToken if required|Dashboard response is returned
+PRODUCT-DASHBOARD-001-S02|PRODUCT-DASHBOARD-001|2|QA_AUTOMATION|Validate product metrics|dashboard payload|productCount inventoryRisk barcodeScans|Product metrics are ready for UI cards
