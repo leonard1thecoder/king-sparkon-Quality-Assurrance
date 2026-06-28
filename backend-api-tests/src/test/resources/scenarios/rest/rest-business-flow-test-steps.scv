@@ -1,0 +1,58 @@
+stepId|testCaseId|order|actor|action|target|testData|expectedResult
+TIPS-CREATE-201-S01|TIPS-CREATE-201|1|REST_ASSURED|Send request and validate status|POST /api/v1/tips|valid worker and amount|Tip is created or accepted
+TIPS-CREATE-MISSING-WORKER-400-S01|TIPS-CREATE-MISSING-WORKER-400|1|REST_ASSURED|Send request missing worker|POST /api/v1/tips|amount only|Validation error is returned
+TIPS-CREATE-NEGATIVE-AMOUNT-400-S01|TIPS-CREATE-NEGATIVE-AMOUNT-400|1|REST_ASSURED|Send request with negative amount|POST /api/v1/tips|negative tipAmount|Validation error is returned
+TIPS-LIST-WORKER-200-S01|TIPS-LIST-WORKER-200|1|REST_ASSURED|Fetch worker tips|GET /api/v1/tips/workers/1001|known worker|Worker tips are returned
+TIPS-LIST-WORKER-NOT-FOUND-404-S01|TIPS-LIST-WORKER-NOT-FOUND-404|1|REST_ASSURED|Fetch unknown worker tips|GET /api/v1/tips/workers/999999|unknown worker|Not found response is returned
+TIPS-MARK-PAID-200-S01|TIPS-MARK-PAID-200|1|REST_ASSURED|Mark tip as paid|PATCH /api/v1/tips/9001/paid|payment reference|Tip status is updated
+TIPS-MARK-PAID-NOT-FOUND-404-S01|TIPS-MARK-PAID-NOT-FOUND-404|1|REST_ASSURED|Mark unknown tip as paid|PATCH /api/v1/tips/999999/paid|missing tip|Not found response is returned
+TIPS-MARK-PAID-BAD-STATUS-409-S01|TIPS-MARK-PAID-BAD-STATUS-409|1|REST_ASSURED|Repeat paid transition|PATCH /api/v1/tips/9001/paid|already paid tip|Conflict response is returned
+TIPS-PAYMENT-LINK-200-S01|TIPS-PAYMENT-LINK-200|1|REST_ASSURED|Create tip payment link|POST /api/v1/tips/payment-link|valid contact and amount|Payment link is created
+TIPS-PAYMENT-LINK-BAD-CONTACT-400-S01|TIPS-PAYMENT-LINK-BAD-CONTACT-400|1|REST_ASSURED|Create link with bad contact|POST /api/v1/tips/payment-link|invalid email|Validation error is returned
+TIPS-WHATSAPP-SEND-202-S01|TIPS-WHATSAPP-SEND-202|1|REST_ASSURED|Send WhatsApp referral|POST /api/v1/tips/share/whatsapp|valid phone|Message request is accepted
+TIPS-WHATSAPP-MISSING-PHONE-400-S01|TIPS-WHATSAPP-MISSING-PHONE-400|1|REST_ASSURED|Send WhatsApp referral without phone|POST /api/v1/tips/share/whatsapp|missing phone|Validation error is returned
+TIPS-EMAIL-SEND-202-S01|TIPS-EMAIL-SEND-202|1|REST_ASSURED|Send email referral|POST /api/v1/tips/share/email|valid email|Message request is accepted
+TIPS-EMAIL-BAD-ADDRESS-400-S01|TIPS-EMAIL-BAD-ADDRESS-400|1|REST_ASSURED|Send email referral with bad address|POST /api/v1/tips/share/email|bad email|Validation error is returned
+TIPS-UNAUTH-401-S01|TIPS-UNAUTH-401|1|REST_ASSURED|Call tips endpoint without auth|GET /api/v1/tips/workers/1001|no token|Unauthorized or forbidden response is returned
+CLAIMS-CREATE-201-S01|CLAIMS-CREATE-201|1|REST_ASSURED|Create claim|POST /api/v1/claims|valid worker claim|Claim is created or accepted
+CLAIMS-CREATE-MISSING-WORKER-400-S01|CLAIMS-CREATE-MISSING-WORKER-400|1|REST_ASSURED|Create claim without worker|POST /api/v1/claims|missing worker|Validation error is returned
+CLAIMS-CREATE-NEGATIVE-AMOUNT-400-S01|CLAIMS-CREATE-NEGATIVE-AMOUNT-400|1|REST_ASSURED|Create claim with negative amount|POST /api/v1/claims|negative amount|Validation error is returned
+CLAIMS-CREATE-MISSING-TYPE-400-S01|CLAIMS-CREATE-MISSING-TYPE-400|1|REST_ASSURED|Create claim without type|POST /api/v1/claims|missing type|Validation error is returned
+CLAIMS-LIST-200-S01|CLAIMS-LIST-200|1|REST_ASSURED|Fetch claims|GET /api/v1/claims|authenticated owner|Claims are returned
+CLAIMS-GET-200-S01|CLAIMS-GET-200|1|REST_ASSURED|Fetch claim by id|GET /api/v1/claims/7001|known claim|Claim detail is returned
+CLAIMS-GET-NOT-FOUND-404-S01|CLAIMS-GET-NOT-FOUND-404|1|REST_ASSURED|Fetch missing claim|GET /api/v1/claims/999999|unknown claim|Not found response is returned
+CLAIMS-APPROVE-200-S01|CLAIMS-APPROVE-200|1|REST_ASSURED|Approve claim|PATCH /api/v1/claims/7001/approve|known pending claim|Claim is approved
+CLAIMS-APPROVE-NOT-FOUND-404-S01|CLAIMS-APPROVE-NOT-FOUND-404|1|REST_ASSURED|Approve missing claim|PATCH /api/v1/claims/999999/approve|unknown claim|Not found response is returned
+CLAIMS-APPROVE-BAD-STATUS-409-S01|CLAIMS-APPROVE-BAD-STATUS-409|1|REST_ASSURED|Approve invalid status claim|PATCH /api/v1/claims/7001/approve|already resolved claim|Conflict response is returned
+CLAIMS-REJECT-200-S01|CLAIMS-REJECT-200|1|REST_ASSURED|Reject claim|PATCH /api/v1/claims/7002/reject|reason supplied|Claim is rejected
+CLAIMS-REJECT-MISSING-REASON-400-S01|CLAIMS-REJECT-MISSING-REASON-400|1|REST_ASSURED|Reject claim without reason|PATCH /api/v1/claims/7002/reject|missing reason|Validation error is returned
+CLAIMS-DUPLICATE-409-S01|CLAIMS-DUPLICATE-409|1|REST_ASSURED|Create duplicate claim reference|POST /api/v1/claims|duplicate reference|Conflict response is returned
+CLAIMS-UNAUTH-401-S01|CLAIMS-UNAUTH-401|1|REST_ASSURED|Call claims endpoint without auth|GET /api/v1/claims|no token|Unauthorized or forbidden response is returned
+RETURNABLES-CREATE-201-S01|RETURNABLES-CREATE-201|1|REST_ASSURED|Create returnable record|POST /api/v1/returnables|valid product and quantity|Returnable is created or accepted
+RETURNABLES-CREATE-MISSING-PRODUCT-400-S01|RETURNABLES-CREATE-MISSING-PRODUCT-400|1|REST_ASSURED|Create returnable without product|POST /api/v1/returnables|missing product|Validation error is returned
+RETURNABLES-CREATE-NEGATIVE-QTY-400-S01|RETURNABLES-CREATE-NEGATIVE-QTY-400|1|REST_ASSURED|Create returnable with negative quantity|POST /api/v1/returnables|negative quantity|Validation error is returned
+RETURNABLES-CREATE-ZERO-QTY-400-S01|RETURNABLES-CREATE-ZERO-QTY-400|1|REST_ASSURED|Create returnable with zero quantity|POST /api/v1/returnables|zero quantity|Validation error is returned
+RETURNABLES-LIST-200-S01|RETURNABLES-LIST-200|1|REST_ASSURED|Fetch returnables|GET /api/v1/returnables|authenticated owner|Returnables are returned
+RETURNABLES-GET-200-S01|RETURNABLES-GET-200|1|REST_ASSURED|Fetch returnable by id|GET /api/v1/returnables/8001|known returnable|Returnable detail is returned
+RETURNABLES-GET-NOT-FOUND-404-S01|RETURNABLES-GET-NOT-FOUND-404|1|REST_ASSURED|Fetch missing returnable|GET /api/v1/returnables/999999|unknown returnable|Not found response is returned
+RETURNABLES-MARK-RETURNED-200-S01|RETURNABLES-MARK-RETURNED-200|1|REST_ASSURED|Mark returnable as returned|PATCH /api/v1/returnables/8001/returned|known returnable|Returnable status is updated
+RETURNABLES-MARK-RETURNED-NOT-FOUND-404-S01|RETURNABLES-MARK-RETURNED-NOT-FOUND-404|1|REST_ASSURED|Mark missing returnable as returned|PATCH /api/v1/returnables/999999/returned|unknown returnable|Not found response is returned
+RETURNABLES-MARK-RETURNED-DUPLICATE-409-S01|RETURNABLES-MARK-RETURNED-DUPLICATE-409|1|REST_ASSURED|Repeat returnable returned transition|PATCH /api/v1/returnables/8001/returned|already returned|Conflict response is returned
+RETURNABLES-REFUND-PREVIEW-200-S01|RETURNABLES-REFUND-PREVIEW-200|1|REST_ASSURED|Preview returnable refund|POST /api/v1/returnables/refund-preview|valid product and quantity|Refund preview is returned
+RETURNABLES-REFUND-PREVIEW-BAD-QTY-400-S01|RETURNABLES-REFUND-PREVIEW-BAD-QTY-400|1|REST_ASSURED|Preview refund with bad quantity|POST /api/v1/returnables/refund-preview|negative quantity|Validation error is returned
+RETURNABLES-UNAUTH-401-S01|RETURNABLES-UNAUTH-401|1|REST_ASSURED|Call returnables endpoint without auth|GET /api/v1/returnables|no token|Unauthorized or forbidden response is returned
+TRANSACTIONS-CREATE-201-S01|TRANSACTIONS-CREATE-201|1|REST_ASSURED|Create transaction|POST /api/v1/transactions|valid transaction body|Transaction is created or accepted
+TRANSACTIONS-CREATE-MISSING-ORDER-400-S01|TRANSACTIONS-CREATE-MISSING-ORDER-400|1|REST_ASSURED|Create transaction without order|POST /api/v1/transactions|missing order|Validation error is returned
+TRANSACTIONS-CREATE-NEGATIVE-AMOUNT-400-S01|TRANSACTIONS-CREATE-NEGATIVE-AMOUNT-400|1|REST_ASSURED|Create transaction with negative amount|POST /api/v1/transactions|negative amount|Validation error is returned
+TRANSACTIONS-CREATE-MISSING-METHOD-400-S01|TRANSACTIONS-CREATE-MISSING-METHOD-400|1|REST_ASSURED|Create transaction without method|POST /api/v1/transactions|missing method|Validation error is returned
+TRANSACTIONS-CREATE-DUPLICATE-409-S01|TRANSACTIONS-CREATE-DUPLICATE-409|1|REST_ASSURED|Create duplicate transaction reference|POST /api/v1/transactions|duplicate reference|Conflict response is returned
+TRANSACTIONS-LIST-200-S01|TRANSACTIONS-LIST-200|1|REST_ASSURED|Fetch transactions|GET /api/v1/transactions|authenticated owner|Transactions are returned
+TRANSACTIONS-GET-200-S01|TRANSACTIONS-GET-200|1|REST_ASSURED|Fetch transaction by id|GET /api/v1/transactions/3001|known transaction|Transaction detail is returned
+TRANSACTIONS-GET-NOT-FOUND-404-S01|TRANSACTIONS-GET-NOT-FOUND-404|1|REST_ASSURED|Fetch missing transaction|GET /api/v1/transactions/999999|unknown transaction|Not found response is returned
+TRANSACTIONS-RETRY-200-S01|TRANSACTIONS-RETRY-200|1|REST_ASSURED|Retry failed transaction|POST /api/v1/transactions/3001/retry|known failed transaction|Retry is accepted
+TRANSACTIONS-RETRY-NOT-FOUND-404-S01|TRANSACTIONS-RETRY-NOT-FOUND-404|1|REST_ASSURED|Retry missing transaction|POST /api/v1/transactions/999999/retry|unknown transaction|Not found response is returned
+TRANSACTIONS-REFUND-200-S01|TRANSACTIONS-REFUND-200|1|REST_ASSURED|Refund transaction amount|POST /api/v1/transactions/3001/refund|valid refund body|Refund is accepted
+TRANSACTIONS-REFUND-BAD-AMOUNT-400-S01|TRANSACTIONS-REFUND-BAD-AMOUNT-400|1|REST_ASSURED|Refund with bad amount|POST /api/v1/transactions/3001/refund|negative refund amount|Validation error is returned
+TRANSACTIONS-EVENT-202-S01|TRANSACTIONS-EVENT-202|1|REST_ASSURED|Post transaction provider event|POST /api/v1/transactions/events|valid event payload|Event is accepted
+TRANSACTIONS-EVENT-BAD-PAYLOAD-400-S01|TRANSACTIONS-EVENT-BAD-PAYLOAD-400|1|REST_ASSURED|Post malformed provider event|POST /api/v1/transactions/events|bad payload|Error response is returned
+TRANSACTIONS-UNAUTH-401-S01|TRANSACTIONS-UNAUTH-401|1|REST_ASSURED|Call transactions endpoint without auth|GET /api/v1/transactions|no token|Unauthorized or forbidden response is returned
