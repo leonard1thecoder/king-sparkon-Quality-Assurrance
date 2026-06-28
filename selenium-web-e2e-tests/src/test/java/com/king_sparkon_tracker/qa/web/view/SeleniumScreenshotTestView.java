@@ -1,6 +1,7 @@
 package com.king_sparkon_tracker.qa.web.view;
 
 import com.king_sparkon_tracker.qa.core.model.TestCaseModel;
+import com.king_sparkon_tracker.qa.core.model.TestStepModel;
 import com.king_sparkon_tracker.qa.core.model.locator.ElementLocatorModel;
 import com.king_sparkon_tracker.qa.core.model.screenshot.ScreenshotArtifact;
 import com.king_sparkon_tracker.qa.core.model.screenshot.ScreenshotUploadResult;
@@ -17,6 +18,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -45,6 +47,18 @@ public class SeleniumScreenshotTestView extends AbstractTestView {
         this.locatorResolver = locatorResolver;
         this.screenshotFileWriter = screenshotFileWriter;
         this.uploader = uploader;
+    }
+
+    @Override
+    protected List<TestStepModel> endToEndSteps() {
+        return List.of(
+                step(1, "Open browser for " + baseUrl + locator.pagePath(), "Target page is loaded"),
+                step(2, "Resolve locator " + locator.strategy() + " = " + locator.locatorValue(), "Target UI element is found"),
+                step(3, "Validate expected text when configured", "Element content matches expected text"),
+                step(4, "Highlight target element", "Screenshot clearly shows tested element"),
+                step(5, "Capture PNG screenshot", "Screenshot is saved locally under target/qa-screenshots"),
+                step(6, "Upload screenshot to Supabase when enabled", "Report contains Supabase public URL or local-only message")
+        );
     }
 
     @Override
