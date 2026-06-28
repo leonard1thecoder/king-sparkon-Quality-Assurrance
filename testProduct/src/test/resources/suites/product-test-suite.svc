@@ -1,0 +1,4 @@
+suiteId|suiteName|priority|executionType|testCaseIds|qualityGate
+PRODUCT-SUITE-P0|King Sparkon Product P0 Automation Suite|P0|JUnit definition validation|PRODUCT-CATALOG-001,PRODUCT-BARCODE-LOOKUP-001,PRODUCT-BARCODE-NEG-001,PRODUCT-INVENTORY-001,PRODUCT-PRICING-001|All P0 product definitions must have steps and expected results
+PRODUCT-SUITE-REGRESSION|King Sparkon Product Regression Suite|P1|JUnit definition validation|PRODUCT-DETAIL-001,PRODUCT-SEARCH-001,PRODUCT-STOCK-RISK-001,PRODUCT-DASHBOARD-001|Regression product definitions must cover dashboard and inventory risk
+PRODUCT-SUITE-EDGE|King Sparkon Product Edge Suite|P2|JUnit definition validation|PRODUCT-PRICING-LATE-001|Edge case definitions must document controlled pricing risk
