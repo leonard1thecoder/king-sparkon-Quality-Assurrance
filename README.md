@@ -104,6 +104,17 @@ Some flows must be manually verified once before they are trusted as hard CI gat
 | Frontend CI install command mismatch | Frontend README references frozen install, workflow currently uses plain `bun install`. | Update frontend CI to `bun install --frozen-lockfile` after lockfile is stable. |
 | Heavy JMeter and ZAP should not run on every PR | They can create noise, cost, and false failures without a live target. | Keep manual dispatch; run on staging or scheduled release windows. |
 
+## King Sparkon backlog and releases
+
+The backlog is planned through release slices so features are created with QA evidence from day one.
+
+| File | Purpose |
+| --- | --- |
+| `docs/releases/king-sparkon-release-roadmap.md` | Product vision, release roadmap, epics, evidence gates, and backlog workflow. |
+| `docs/templates/automation-analysis-template.md` | Template for deciding automatable vs manual test cases before feature work starts. |
+| `.github/ISSUE_TEMPLATE/feature-automation-analysis.md` | GitHub issue template for creating feature backlog items with automation analysis. |
+| `test-assets/backlog/king-sparkon-backlog.csv` | Seed backlog list by release, epic, feature, priority, and automation layer. |
+
 ## MVC test structure
 
 Each Java test module follows this structure:
@@ -123,6 +134,32 @@ public interface TestBuilder {
 ```
 
 `buildTest()` returns the response that is displayed in the HTML report.
+
+Views can document the full journey by overriding:
+
+```java
+@Override
+protected List<TestStepModel> endToEndSteps() {
+    return List.of(
+            step(1, "Open target screen/API", "Target is reachable"),
+            step(2, "Prepare seeded test data", "Data is available"),
+            step(3, "Execute user action", "System responds"),
+            step(4, "Validate expected result", "Scenario passes"),
+            step(5, "Capture evidence", "HTML report/screenshot is produced")
+    );
+}
+```
+
+Common methods are provided by `CommonTestActions`:
+
+| Method | Purpose |
+| --- | --- |
+| `step(order, action, expectedResult)` | Builds a reusable E2E step. |
+| `verifyTrue(condition, message)` | Common assertion helper. |
+| `verifyNotBlank(value, fieldName)` | Guards required values. |
+| `runStep(step, Runnable)` | Runs a step with shared error context. |
+| `runStep(step, Callable<T>)` | Runs a step and returns data. |
+| `waitUntil(description, condition, maxAttempts, sleepMillis)` | Reusable wait helper. |
 
 ## Locator framework
 
@@ -304,6 +341,9 @@ mvn -am -pl jmeter-performance-tests verify \
 
 ## Test strategy docs
 
+- [`docs/releases/king-sparkon-release-roadmap.md`](docs/releases/king-sparkon-release-roadmap.md)
+- [`docs/templates/automation-analysis-template.md`](docs/templates/automation-analysis-template.md)
+- [`docs/screenshot-locator-supabase.md`](docs/screenshot-locator-supabase.md)
 - [`docs/qa-framework-plan.md`](docs/qa-framework-plan.md)
 - [`docs/performance-test-plan.md`](docs/performance-test-plan.md)
 - [`docs/backend-endpoints-under-test.md`](docs/backend-endpoints-under-test.md)

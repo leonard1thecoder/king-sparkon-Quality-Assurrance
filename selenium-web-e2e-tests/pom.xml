@@ -17,6 +17,7 @@
         <ui.baseUrl>http://localhost:3000</ui.baseUrl>
         <ui.browser>chrome</ui.browser>
         <ui.headless>true</ui.headless>
+        <ui.e2e.enabled>false</ui.e2e.enabled>
         <selenium.remoteUrl></selenium.remoteUrl>
     </properties>
 
@@ -58,6 +59,7 @@
                         <ui.baseUrl>${ui.baseUrl}</ui.baseUrl>
                         <ui.browser>${ui.browser}</ui.browser>
                         <ui.headless>${ui.headless}</ui.headless>
+                        <ui.e2e.enabled>${ui.e2e.enabled}</ui.e2e.enabled>
                         <selenium.remoteUrl>${selenium.remoteUrl}</selenium.remoteUrl>
                     </systemPropertyVariables>
                 </configuration>
