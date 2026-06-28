@@ -1,0 +1,7 @@
+name|path|expectedStatus
+home|/|200
+login|/login|200
+register|/register|200
+scanner|/scanner|200
+dashboard|/dashboard|200
+tips-worker|/tips/workers/1001|200
