@@ -8,12 +8,23 @@ This repository is structured as a **Maven multi-module MVC QA application** so 
 
 | Module | Purpose |
 | --- | --- |
-| `qa-core-framework` | Shared MVC test models, test-builder view contract, locator framework, screenshot upload, response objects, and HTML reporting. |
+| `qa-core-framework` | Shared MVC test models, test-builder view contract, locator framework, screenshot upload, response objects, E2E steps, automation analysis models, and HTML reporting. |
 | `backend-api-tests` | REST Assured API regression tests for the King Sparkon Tracker backend. |
 | `selenium-web-e2e-tests` | Selenium WebDriver end-to-end tests and screenshot capture for the Next.js website. |
 | `security-tests` | OWASP ZAP baseline security scanning plus MVC readiness report. |
 | `appium-android-tests` | Appium Android automation and screenshot capture for future barcode scanner Android development. |
 | `jmeter-performance-tests` | Apache JMeter performance tests for backend health, API load, and barcode scan spike scenarios. |
+
+## King Sparkon backlog and releases
+
+The backlog is planned through release slices so features are created with QA evidence from day one.
+
+| File | Purpose |
+| --- | --- |
+| `docs/releases/king-sparkon-release-roadmap.md` | Product vision, release roadmap, epics, evidence gates, and backlog workflow. |
+| `docs/templates/automation-analysis-template.md` | Template for deciding automatable vs manual test cases before feature work starts. |
+| `.github/ISSUE_TEMPLATE/feature-automation-analysis.md` | GitHub issue template for creating feature backlog items with automation analysis. |
+| `test-assets/backlog/king-sparkon-backlog.csv` | Seed backlog list by release, epic, feature, priority, and automation layer. |
 
 ## MVC test structure
 
@@ -21,8 +32,8 @@ Each Java test module follows this structure:
 
 | Layer | Folder/package | Responsibility |
 | --- | --- | --- |
-| Model | `model` | Test case entities and scenario data objects. |
-| View | `view` | Service-side logic that builds and executes test cases. View classes implement `TestBuilder`. |
+| Model | `model` | Test case entities, scenario data objects, automation-analysis models, and E2E step models. |
+| View | `view` | Service-side logic that builds and executes test cases. View classes implement `TestBuilder` and override `endToEndSteps()`. |
 | Controller | `controller` | JUnit `@Test` classes. Controllers call views, assert results, and write HTML reports. |
 
 The shared view contract is:
@@ -34,6 +45,32 @@ public interface TestBuilder {
 ```
 
 `buildTest()` returns the response that is displayed in the HTML report.
+
+Views can document the full journey by overriding:
+
+```java
+@Override
+protected List<TestStepModel> endToEndSteps() {
+    return List.of(
+            step(1, "Open target screen/API", "Target is reachable"),
+            step(2, "Prepare seeded test data", "Data is available"),
+            step(3, "Execute user action", "System responds"),
+            step(4, "Validate expected result", "Scenario passes"),
+            step(5, "Capture evidence", "HTML report/screenshot is produced")
+    );
+}
+```
+
+Common methods are provided by `CommonTestActions`:
+
+| Method | Purpose |
+| --- | --- |
+| `step(order, action, expectedResult)` | Builds a reusable E2E step. |
+| `verifyTrue(condition, message)` | Common assertion helper. |
+| `verifyNotBlank(value, fieldName)` | Guards required values. |
+| `runStep(step, Runnable)` | Runs a step with shared error context. |
+| `runStep(step, Callable<T>)` | Runs a step and returns data. |
+| `waitUntil(description, condition, maxAttempts, sleepMillis)` | Reusable wait helper. |
 
 ## Locator framework
 
@@ -235,6 +272,9 @@ mvn -pl jmeter-performance-tests verify \
 
 ## Test strategy docs
 
+- [`docs/releases/king-sparkon-release-roadmap.md`](docs/releases/king-sparkon-release-roadmap.md)
+- [`docs/templates/automation-analysis-template.md`](docs/templates/automation-analysis-template.md)
+- [`docs/screenshot-locator-supabase.md`](docs/screenshot-locator-supabase.md)
 - [`docs/qa-framework-plan.md`](docs/qa-framework-plan.md)
 - [`docs/performance-test-plan.md`](docs/performance-test-plan.md)
 - [`docs/backend-endpoints-under-test.md`](docs/backend-endpoints-under-test.md)
