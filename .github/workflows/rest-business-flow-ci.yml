@@ -31,6 +31,9 @@ jobs:
   rest-business-definition:
     name: REST business definition and smoke gate
     runs-on: ubuntu-latest
+    env:
+      DEFAULT_BACKEND_URL: http://localhost:8080
+      DEFAULT_EXECUTE_REST_FLOWS: 'false'
 
     steps:
       - name: Checkout QA repository
@@ -43,12 +46,22 @@ jobs:
           java-version: '21'
           cache: maven
 
+      - name: Resolve REST QA settings
+        id: rest_settings
+        shell: bash
+        run: |
+          echo "backend_url=${INPUT_BACKEND_URL:-$DEFAULT_BACKEND_URL}" >> "$GITHUB_OUTPUT"
+          echo "execute_rest_flows=${INPUT_EXECUTE_REST_FLOWS:-$DEFAULT_EXECUTE_REST_FLOWS}" >> "$GITHUB_OUTPUT"
+        env:
+          INPUT_BACKEND_URL: ${{ github.event.inputs.backend_url }}
+          INPUT_EXECUTE_REST_FLOWS: ${{ github.event.inputs.execute_rest_flows }}
+
       - name: Run REST smoke and API definition gates
         run: |
           mvn -B -am -pl backend-api-tests test \
-            -Dapi.baseUrl="${{ inputs.backend_url || 'http://localhost:8080' }}" \
-            -Dapi.executeRestFlows="${{ inputs.execute_rest_flows || 'false' }}" \
-            -Dapi.authToken="${{ inputs.api_auth_token || '' }}"
+            -Dapi.baseUrl="${{ steps.rest_settings.outputs.backend_url }}" \
+            -Dapi.executeRestFlows="${{ steps.rest_settings.outputs.execute_rest_flows }}" \
+            -Dapi.authToken="${{ github.event.inputs.api_auth_token }}"
 
       - name: Upload REST business reports
         if: always()
