@@ -4,6 +4,11 @@ openapi|GET|/v3/api-docs||200
 swagger-ui|GET|/swagger-ui.html||200
 current-user|GET|/api/v1/users/me||200
 products|GET|/api/v1/products||200
+product-search|GET|/api/v1/products?query=6009801234567||200
 inventory|GET|/api/v1/inventory||200
 reports-dashboard|GET|/api/v1/reports/dashboard||200
 barcode-scan|POST|/api/v1/barcodes/scan|{"barcode":"6009801234567","deviceId":"jmeter-device-001","source":"JMETER"}|200
+barcode-scan-invalid|POST|/api/v1/barcodes/scan|{"barcode":"0000000000000","deviceId":"jmeter-device-NEG","source":"JMETER"}|404
+tips-worker|GET|/api/v1/tips/workers/1001||200
+tips-payment-link|POST|/api/v1/tips/payment-link|{"workerId":1001,"tipAmount":25.00,"contact":"qa@example.com","channel":"EMAIL"}|200
+tips-dashboard|GET|/api/v1/tips/dashboard||200
