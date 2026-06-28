@@ -17,6 +17,7 @@
         <module>security-tests</module>
         <module>appium-android-tests</module>
         <module>jmeter-performance-tests</module>
+        <module>testProduct</module>
     </modules>
 
     <properties>
@@ -39,6 +40,11 @@
             <dependency>
                 <groupId>com.king_sparkon_tracker.qa</groupId>
                 <artifactId>qa-core-framework</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.king_sparkon_tracker.qa</groupId>
+                <artifactId>testProduct</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
