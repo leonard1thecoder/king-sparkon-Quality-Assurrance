@@ -1,0 +1,27 @@
+stepId|testCaseId|order|actor|action|target|testData|expectedResult
+SCV-SMOKE-001-S01|SMOKE-001|1|QA_AUTOMATION|Validate Maven root modules|pom.xml|qa-core backend-api selenium security appium jmeter testProduct|All required modules are declared
+SCV-API-HEALTH-001-S01|API-HEALTH-001|1|REST_ASSURED|Send GET request|/actuator/health|none|HTTP 200 is returned
+SCV-API-DOCS-001-S01|API-DOCS-001|1|REST_ASSURED|Send GET request|/v3/api-docs|none|OpenAPI JSON is returned
+SCV-AUTH-LOGIN-001-S01|AUTH-LOGIN-001|1|REST_ASSURED|Submit valid credentials|/api/v1/auth/login|seeded email and password|Access token or session is returned
+SCV-AUTH-LOGIN-NEG-001-S01|AUTH-LOGIN-NEG-001|1|REST_ASSURED|Submit invalid credentials|/api/v1/auth/login|valid email and bad password|Request is rejected without secret leakage
+SCV-AUTH-REGISTER-001-S01|AUTH-REGISTER-001|1|SELENIUM|Open register page|/register|none|Registration form is visible
+SCV-AUTH-REGISTER-001-S02|AUTH-REGISTER-001|2|SELENIUM|Submit empty form|register form|empty fields|Validation messages explain required fields
+SCV-WEB-HOME-001-S01|WEB-HOME-001|1|SELENIUM|Open landing page|/|none|King Sparkon hero content is visible
+SCV-WEB-LOGIN-001-S01|WEB-LOGIN-001|1|SELENIUM|Open login page|/login|none|Email and password inputs are visible
+SCV-WEB-REGISTER-001-S01|WEB-REGISTER-001|1|SELENIUM|Open register page|/register|none|Registration inputs are visible
+SCV-WEB-FOOTER-SOCIALS-001-S01|WEB-FOOTER-SOCIALS-001|1|SELENIUM|Inspect footer links|footer|facebook instagram x linkedin github|All required social links are visible and clickable
+SCV-WEB-SCANNER-001-S01|WEB-SCANNER-001|1|SELENIUM|Open scanner page|/scanner|authenticated session if required|Scanner UI loads
+SCV-WEB-SCANNER-001-S02|WEB-SCANNER-001|2|SELENIUM|Enter seeded barcode|scanner barcode input|6009801234567|Scan result area updates
+SCV-TIPS-QR-001-S01|TIPS-QR-001|1|REST_ASSURED|Fetch worker QR tip route|/api/v1/tips/workers/1001/qr|workerId 1001|QR metadata contains worker route
+SCV-TIPS-PAYMENT-LINK-001-S01|TIPS-PAYMENT-LINK-001|1|REST_ASSURED|Create tip payment link|/api/v1/tips/payment-link|workerId amount contact|Stripe payment link is returned
+SCV-TIPS-WHATSAPP-001-S01|TIPS-WHATSAPP-001|1|REST_ASSURED|Request WhatsApp delivery|/api/v1/tips/share/whatsapp|phone and paymentLink|Provider accepts message or returns configured skip
+SCV-TIPS-EMAIL-001-S01|TIPS-EMAIL-001|1|REST_ASSURED|Request email delivery|/api/v1/tips/share/email|email and paymentLink|Provider accepts message or returns configured skip
+SCV-WORKER-TIPS-001-S01|WORKER-TIPS-001|1|SELENIUM|Open worker tip page|/tips/workers/1001|none|Tip amount input and CTA are visible
+SCV-SEC-ZAP-001-S01|SEC-ZAP-001|1|OWASP_ZAP|Run passive baseline scan|ui.baseUrl|zap baseline config|No FAIL-level alerts are produced
+SCV-PERF-HEALTH-001-S01|PERF-HEALTH-001|1|JMETER|Run backend health load plan|king-sparkon-backend-health.jmx|threads rampUp duration|p95 remains inside maxResponseMs
+SCV-PERF-API-MIX-001-S01|PERF-API-MIX-001|1|JMETER|Run backend API mix|king-sparkon-backend-api-load.jmx|api-endpoints.csv|All endpoint statuses match expectedStatus
+SCV-PERF-WEB-PAGES-001-S01|PERF-WEB-PAGES-001|1|JMETER|Run web page load|king-sparkon-web-pages-load.jmx|web-pages.csv|All page statuses match expectedStatus
+SCV-PERF-BARCODE-SPIKE-001-S01|PERF-BARCODE-SPIKE-001|1|JMETER|Run barcode spike plan|king-sparkon-barcode-scan-spike.jmx|barcode-scan-payloads.csv|Barcode scan p95 stays under SLA
+SCV-PERF-TIPS-CHECKOUT-001-S01|PERF-TIPS-CHECKOUT-001|1|JMETER|Run tips payment load scenario|king-sparkon-whole-project-performance.jmx|tips payload data|Tip link endpoint stays stable under load
+SCV-ANDROID-LAUNCH-001-S01|ANDROID-LAUNCH-001|1|APPIUM|Create Android app session|Appium server|appPackage and appActivity|App launches successfully
+SCV-ANDROID-BARCODE-001-S01|ANDROID-BARCODE-001|1|APPIUM|Open barcode screen|Android scanner screen|accessibility ids|Barcode scan controls are visible
