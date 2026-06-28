@@ -5,6 +5,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.time.Duration;
 import java.util.Locale;
@@ -31,13 +32,21 @@ public class SeleniumDriverFactory {
 
         WebDriver driver = remoteUrl == null || remoteUrl.isBlank()
                 ? new ChromeDriver(options)
-                : RemoteWebDriver.builder()
-                .oneOf(options)
-                .address(URI.create(remoteUrl).toURL())
-                .build();
+                : createRemoteDriver(remoteUrl, options);
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
         return driver;
+    }
+
+    private WebDriver createRemoteDriver(String remoteUrl, ChromeOptions options) {
+        try {
+            return RemoteWebDriver.builder()
+                    .oneOf(options)
+                    .address(URI.create(remoteUrl).toURL())
+                    .build();
+        } catch (MalformedURLException exception) {
+            throw new IllegalArgumentException("Invalid selenium.remoteUrl: " + remoteUrl, exception);
+        }
     }
 }
