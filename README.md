@@ -8,11 +8,11 @@ This repository is structured as a **Maven multi-module MVC QA application** so 
 
 | Module | Purpose |
 | --- | --- |
-| `qa-core-framework` | Shared MVC test models, test-builder view contract, response objects, and HTML reporting. |
+| `qa-core-framework` | Shared MVC test models, test-builder view contract, locator framework, screenshot upload, response objects, and HTML reporting. |
 | `backend-api-tests` | REST Assured API regression tests for the King Sparkon Tracker backend. |
-| `selenium-web-e2e-tests` | Selenium WebDriver end-to-end tests for the Next.js website. |
+| `selenium-web-e2e-tests` | Selenium WebDriver end-to-end tests and screenshot capture for the Next.js website. |
 | `security-tests` | OWASP ZAP baseline security scanning plus MVC readiness report. |
-| `appium-android-tests` | Appium Android automation skeleton for future barcode scanner Android development. |
+| `appium-android-tests` | Appium Android automation and screenshot capture for future barcode scanner Android development. |
 | `jmeter-performance-tests` | Apache JMeter performance tests for backend health, API load, and barcode scan spike scenarios. |
 
 ## MVC test structure
@@ -34,6 +34,79 @@ public interface TestBuilder {
 ```
 
 `buildTest()` returns the response that is displayed in the HTML report.
+
+## Locator framework
+
+The framework supports locator-driven test actions from `.svc` files.
+
+| Strategy | Selenium | Appium |
+| --- | --- | --- |
+| `id` | Yes | Yes |
+| `name` | Yes | Yes |
+| `css` | Yes | Yes where driver supports it |
+| `class-name` | Yes | Yes |
+| `tag-name` | Yes | Yes |
+| `link-text` | Yes | Yes where driver supports it |
+| `partial-link-text` | Yes | Yes where driver supports it |
+| `xpath` | Yes | Yes |
+| `full-xpath` | Yes | Yes |
+| `js-path` | Yes | No for native Android screens |
+| `accessibility-id` | No | Yes |
+| `android-ui-automator` | No | Yes |
+| `ios-predicate` | No | Added for future iOS support |
+| `ios-class-chain` | No | Added for future iOS support |
+
+Selenium screenshot locator file:
+
+```text
+selenium-web-e2e-tests/src/test/resources/scenarios/web-screenshot-locators.svc
+```
+
+Appium screenshot locator file:
+
+```text
+appium-android-tests/src/test/resources/scenarios/android-screenshot-locators.svc
+```
+
+Format:
+
+```text
+id|pagePath|strategy|locatorValue|expectedText|description
+```
+
+## Screenshot and Supabase upload
+
+Selenium and Appium screenshot tests save PNG files locally first:
+
+```text
+target/qa-screenshots/*.png
+```
+
+When Supabase upload is enabled, screenshots are uploaded to Supabase Storage under:
+
+```text
+qa-screenshots/{testCaseId}/{fileName}.png
+```
+
+Supabase upload is disabled by default. Enable it with Maven properties or environment variables:
+
+```bash
+-Dsupabase.uploadEnabled=true \
+-Dsupabase.url=https://YOUR_PROJECT.supabase.co \
+-Dsupabase.bucket=qa-screenshots \
+-Dsupabase.serviceRoleKey=YOUR_SERVICE_ROLE_KEY
+```
+
+Environment variable equivalents:
+
+```text
+SUPABASE_UPLOAD_ENABLED=true
+SUPABASE_URL=https://YOUR_PROJECT.supabase.co
+SUPABASE_BUCKET=qa-screenshots
+SUPABASE_SERVICE_ROLE_KEY=YOUR_SERVICE_ROLE_KEY
+```
+
+Never commit Supabase keys. Use GitHub Actions secrets or local environment variables.
 
 ## HTML reports
 
@@ -84,13 +157,24 @@ mvn -am -pl backend-api-tests test \
 
 Auth-required scenarios are reported as skipped when `api.authToken` is empty.
 
-## Run Selenium website E2E tests
+## Run Selenium website E2E and screenshots
 
 ```bash
 mvn -am -pl selenium-web-e2e-tests test \
   -Dui.baseUrl=http://localhost:3000 \
   -Dui.browser=chrome \
   -Dui.headless=true
+```
+
+With Supabase upload:
+
+```bash
+mvn -am -pl selenium-web-e2e-tests test \
+  -Dui.baseUrl=http://localhost:3000 \
+  -Dsupabase.uploadEnabled=true \
+  -Dsupabase.url=https://YOUR_PROJECT.supabase.co \
+  -Dsupabase.bucket=qa-screenshots \
+  -Dsupabase.serviceRoleKey=YOUR_SERVICE_ROLE_KEY
 ```
 
 For Selenium Grid:
@@ -101,7 +185,7 @@ mvn -am -pl selenium-web-e2e-tests test \
   -Dselenium.remoteUrl=http://localhost:4444/wd/hub
 ```
 
-## Run Appium Android tests
+## Run Appium Android tests and screenshots
 
 Start Appium first, then run:
 
@@ -145,7 +229,7 @@ mvn -pl jmeter-performance-tests verify \
 | Workflow | Purpose |
 | --- | --- |
 | `QA Framework Build` | Compiles Java QA modules on PRs. |
-| `QA API and Web Smoke` | Manual backend API + Selenium website smoke run and uploads MVC HTML reports. |
+| `QA API and Web Smoke` | Manual backend API + Selenium website smoke/screenshot run and uploads MVC HTML reports/screenshots. |
 | `Security ZAP Baseline` | Manual OWASP ZAP passive baseline scan and uploads MVC/ZAP reports. |
 | `JMeter Performance Tests` | Manual backend performance run. |
 
