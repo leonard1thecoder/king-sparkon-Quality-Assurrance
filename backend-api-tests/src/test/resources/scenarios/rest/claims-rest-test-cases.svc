@@ -1,15 +1,15 @@
 id|domain|caseType|name|method|path|body|expectedStatus|requiresAuth|priority|expectedBodyContains
-CLAIMS-CREATE-201|CLAIMS|POSITIVE|Create worker claim|POST|/api/v1/claims|{"workerId":1001,"claimAmount":25.00,"claimType":"TIP_WITHDRAWAL","description":"QA claim"}|200,201|true|P0|
-CLAIMS-CREATE-MISSING-WORKER-400|CLAIMS|NEGATIVE|Reject claim without worker|POST|/api/v1/claims|{"claimAmount":25.00,"claimType":"TIP_WITHDRAWAL"}|400|true|P0|
-CLAIMS-CREATE-NEGATIVE-AMOUNT-400|CLAIMS|NEGATIVE|Reject negative claim amount|POST|/api/v1/claims|{"workerId":1001,"claimAmount":-25.00,"claimType":"TIP_WITHDRAWAL"}|400|true|P0|
-CLAIMS-CREATE-MISSING-TYPE-400|CLAIMS|NEGATIVE|Reject claim without type|POST|/api/v1/claims|{"workerId":1001,"claimAmount":25.00}|400|true|P1|
-CLAIMS-LIST-200|CLAIMS|POSITIVE|List claims|GET|/api/v1/claims||200|true|P0|
-CLAIMS-GET-200|CLAIMS|POSITIVE|Get claim by id|GET|/api/v1/claims/7001||200|true|P0|
-CLAIMS-GET-NOT-FOUND-404|CLAIMS|NEGATIVE|Reject unknown claim lookup|GET|/api/v1/claims/999999||404|true|P0|
-CLAIMS-APPROVE-200|CLAIMS|POSITIVE|Approve claim|PATCH|/api/v1/claims/7001/approve|{"approvedBy":"owner-qa"}|200|true|P0|
-CLAIMS-APPROVE-NOT-FOUND-404|CLAIMS|NEGATIVE|Reject approval for unknown claim|PATCH|/api/v1/claims/999999/approve|{"approvedBy":"owner-qa"}|404|true|P0|
-CLAIMS-APPROVE-BAD-STATUS-409|CLAIMS|NEGATIVE|Reject invalid claim approval transition|PATCH|/api/v1/claims/7001/approve|{"approvedBy":"owner-qa"}|409|true|P1|
-CLAIMS-REJECT-200|CLAIMS|POSITIVE|Reject claim with reason|PATCH|/api/v1/claims/7002/reject|{"rejectedBy":"owner-qa","reason":"QA rejection"}|200|true|P1|
-CLAIMS-REJECT-MISSING-REASON-400|CLAIMS|NEGATIVE|Reject claim rejection without reason|PATCH|/api/v1/claims/7002/reject|{"rejectedBy":"owner-qa"}|400|true|P1|
-CLAIMS-DUPLICATE-409|CLAIMS|NEGATIVE|Reject duplicate claim reference|POST|/api/v1/claims|{"workerId":1001,"claimAmount":25.00,"claimType":"TIP_WITHDRAWAL","claimReference":"qa-duplicate-claim"}|409|true|P1|
-CLAIMS-UNAUTH-401|CLAIMS|NEGATIVE|Reject unauthenticated claims request|GET|/api/v1/claims||401,403|false|P0|
+CLAIMS-CREATE-201|CLAIMS|POSITIVE|Create worker claim|POST|/api/claims|{"workerId":1001,"claimAmount":25.00,"claimType":"TIP_WITHDRAWAL","description":"QA claim"}|200,201|true|P0|
+CLAIMS-CREATE-MISSING-WORKER-400|CLAIMS|NEGATIVE|Reject claim without worker|POST|/api/claims|{"claimAmount":25.00,"claimType":"TIP_WITHDRAWAL"}|400|true|P0|
+CLAIMS-CREATE-NEGATIVE-AMOUNT-400|CLAIMS|NEGATIVE|Reject negative claim amount|POST|/api/claims|{"workerId":1001,"claimAmount":-25.00,"claimType":"TIP_WITHDRAWAL"}|400|true|P0|
+CLAIMS-CREATE-MISSING-TYPE-400|CLAIMS|NEGATIVE|Reject claim without type|POST|/api/claims|{"workerId":1001,"claimAmount":25.00}|400|true|P1|
+CLAIMS-LIST-200|CLAIMS|POSITIVE|List claims|GET|/api/claims||200|true|P0|
+CLAIMS-GET-200|CLAIMS|POSITIVE|Get claim by id|GET|/api/claims/7001||200|true|P0|
+CLAIMS-GET-NOT-FOUND-404|CLAIMS|NEGATIVE|Reject unknown claim lookup|GET|/api/claims/999999||404|true|P0|
+CLAIMS-APPROVE-200|CLAIMS|POSITIVE|Approve claim|PATCH|/api/claims/7001/approve|{"approvedBy":"owner-qa"}|200|true|P0|
+CLAIMS-APPROVE-NOT-FOUND-404|CLAIMS|NEGATIVE|Reject approval for unknown claim|PATCH|/api/claims/999999/approve|{"approvedBy":"owner-qa"}|404|true|P0|
+CLAIMS-APPROVE-BAD-STATUS-409|CLAIMS|NEGATIVE|Reject invalid claim approval transition|PATCH|/api/claims/7001/approve|{"approvedBy":"owner-qa"}|409|true|P1|
+CLAIMS-REJECT-200|CLAIMS|POSITIVE|Reject claim with reason|PATCH|/api/claims/7002/reject|{"rejectedBy":"owner-qa","reason":"QA rejection"}|200|true|P1|
+CLAIMS-REJECT-MISSING-REASON-400|CLAIMS|NEGATIVE|Reject claim rejection without reason|PATCH|/api/claims/7002/reject|{"rejectedBy":"owner-qa"}|400|true|P1|
+CLAIMS-DUPLICATE-409|CLAIMS|NEGATIVE|Reject duplicate claim reference|POST|/api/claims|{"workerId":1001,"claimAmount":25.00,"claimType":"TIP_WITHDRAWAL","claimReference":"qa-duplicate-claim"}|409|true|P1|
+CLAIMS-UNAUTH-401|CLAIMS|NEGATIVE|Reject unauthenticated claims request|GET|/api/claims||401,403|false|P0|
