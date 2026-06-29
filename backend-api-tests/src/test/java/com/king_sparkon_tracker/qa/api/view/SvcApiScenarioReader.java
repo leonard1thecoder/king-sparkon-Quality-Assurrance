@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -46,9 +47,18 @@ public final class SvcApiScenarioReader {
                 required(parts[2], "method").toUpperCase(),
                 required(parts[3], "path"),
                 Objects.toString(parts[4], ""),
-                Integer.parseInt(required(parts[5], "expectedStatus")),
+                parseExpectedStatuses(required(parts[5], "expectedStatuses")),
                 Boolean.parseBoolean(required(parts[6], "requiresAuth"))
         );
+    }
+
+    private static List<Integer> parseExpectedStatuses(String expectedStatuses) {
+        return Arrays.stream(expectedStatuses.split("\\s*[,;]\\s*"))
+                .map(String::trim)
+                .filter(status -> !status.isBlank())
+                .map(Integer::parseInt)
+                .distinct()
+                .toList();
     }
 
     private static String required(String value, String fieldName) {
