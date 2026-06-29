@@ -1,0 +1,9 @@
+id|domain|caseType|name|method|path|body|expectedStatus|requiresAuth|priority|expectedBodyContains
+SMOKE-TIPS-LIST-200|TIPS|POSITIVE|Smoke list tips|GET|/api/tips||200|true|P0|
+SMOKE-TIPS-UNAUTH-401|TIPS|NEGATIVE|Smoke tips auth gate|GET|/api/tips||401,403|false|P0|
+SMOKE-CLAIMS-LIST-200|CLAIMS|POSITIVE|Smoke list claims|GET|/api/claims||200|true|P0|
+SMOKE-CLAIMS-UNAUTH-401|CLAIMS|NEGATIVE|Smoke claims auth gate|GET|/api/claims||401,403|false|P0|
+SMOKE-RETURNABLES-LIST-200|RETURNABLES|POSITIVE|Smoke list returnables|GET|/api/returnables||200|true|P0|
+SMOKE-RETURNABLES-UNAUTH-401|RETURNABLES|NEGATIVE|Smoke returnables auth gate|GET|/api/returnables||401,403|false|P0|
+SMOKE-TRANSACTIONS-LIST-200|TRANSACTIONS|POSITIVE|Smoke list transactions|GET|/api/transactions||200|true|P0|
+SMOKE-TRANSACTIONS-UNAUTH-401|TRANSACTIONS|NEGATIVE|Smoke transactions auth gate|GET|/api/transactions||401,403|false|P0|

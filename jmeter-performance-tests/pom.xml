@@ -12,7 +12,7 @@
     <packaging>pom</packaging>
 
     <name>King Sparkon Tracker - JMeter Performance Tests</name>
-    <description>JMeter smoke, load, spike, web-page, tips, barcode, and whole-project performance tests for King Sparkon Tracker.</description>
+    <description>JMeter smoke, load, spike, web-page, REST business-flow, tips, barcode, and whole-project performance tests for King Sparkon Tracker.</description>
 
     <properties>
         <targetProtocol>http</targetProtocol>
@@ -32,6 +32,7 @@
         <barcodeCsv>src/test/resources/data/barcode-scan-payloads.csv</barcodeCsv>
         <tipsCsv>src/test/resources/data/tips-performance-payloads.csv</tipsCsv>
         <projectSuiteCsv>src/test/resources/data/project-performance-suite.csv</projectSuiteCsv>
+        <restBusinessEndpointCsv>src/test/resources/data/rest-business-flow-endpoints.csv</restBusinessEndpointCsv>
         <barcodeScanPath>/api/v1/barcodes/scan</barcodeScanPath>
         <expectedBarcodeStatus>200</expectedBarcodeStatus>
     </properties>
@@ -67,6 +68,7 @@
                         <jMeterTestFile>king-sparkon-barcode-scan-spike.jmx</jMeterTestFile>
                         <jMeterTestFile>king-sparkon-web-pages-load.jmx</jMeterTestFile>
                         <jMeterTestFile>king-sparkon-whole-project-performance.jmx</jMeterTestFile>
+                        <jMeterTestFile>king-sparkon-rest-business-flow-load.jmx</jMeterTestFile>
                     </testFilesIncluded>
                     <propertiesUser>
                         <protocol>${targetProtocol}</protocol>
@@ -86,6 +88,7 @@
                         <barcodeCsv>${barcodeCsv}</barcodeCsv>
                         <tipsCsv>${tipsCsv}</tipsCsv>
                         <projectSuiteCsv>${projectSuiteCsv}</projectSuiteCsv>
+                        <restBusinessEndpointCsv>${restBusinessEndpointCsv}</restBusinessEndpointCsv>
                         <barcodeScanPath>${barcodeScanPath}</barcodeScanPath>
                         <expectedBarcodeStatus>${expectedBarcodeStatus}</expectedBarcodeStatus>
                     </propertiesUser>

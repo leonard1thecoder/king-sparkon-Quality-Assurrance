@@ -1,0 +1,83 @@
+name: REST Business Flow QA
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'backend-api-tests/**'
+      - 'test-assets/**'
+      - '.github/scripts/qa-suite-summary.py'
+      - '.github/workflows/rest-business-flow-ci.yml'
+  workflow_dispatch:
+    inputs:
+      backend_url:
+        description: Backend API URL
+        required: true
+        default: http://localhost:8080
+      execute_rest_flows:
+        description: Execute real REST calls instead of definition-only validation
+        required: true
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
+      api_auth_token:
+        description: Optional backend bearer token for secured REST flows
+        required: false
+        default: ''
+
+jobs:
+  rest-business-definition:
+    name: REST business definition and smoke gate
+    runs-on: ubuntu-latest
+    env:
+      DEFAULT_BACKEND_URL: http://localhost:8080
+      DEFAULT_EXECUTE_REST_FLOWS: 'false'
+
+    steps:
+      - name: Checkout QA repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - name: Resolve REST QA settings
+        id: rest_settings
+        shell: bash
+        run: |
+          echo "backend_url=${INPUT_BACKEND_URL:-$DEFAULT_BACKEND_URL}" >> "$GITHUB_OUTPUT"
+          echo "execute_rest_flows=${INPUT_EXECUTE_REST_FLOWS:-$DEFAULT_EXECUTE_REST_FLOWS}" >> "$GITHUB_OUTPUT"
+        env:
+          INPUT_BACKEND_URL: ${{ github.event.inputs.backend_url }}
+          INPUT_EXECUTE_REST_FLOWS: ${{ github.event.inputs.execute_rest_flows }}
+
+      - name: Run REST smoke and API definition gates
+        run: |
+          mvn -B -am -pl backend-api-tests test \
+            -Dapi.baseUrl="${{ steps.rest_settings.outputs.backend_url }}" \
+            -Dapi.executeRestFlows="${{ steps.rest_settings.outputs.execute_rest_flows }}" \
+            -Dapi.authToken="${{ github.event.inputs.api_auth_token }}"
+
+      - name: Publish REST business pass/fail summary
+        if: always()
+        run: |
+          python3 .github/scripts/qa-suite-summary.py \
+            --title "REST Business Flow QA Results" \
+            --junit "backend-api-tests/target/surefire-reports/TEST-*.xml" \
+            --qa-html "backend-api-tests/target/qa-report/*.html"
+
+      - name: Upload REST business reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rest-business-flow-reports
+          path: |
+            backend-api-tests/target/surefire-reports
+            backend-api-tests/target/qa-report
+          if-no-files-found: warn

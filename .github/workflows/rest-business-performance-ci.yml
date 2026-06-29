@@ -1,0 +1,98 @@
+name: REST Business Performance QA
+
+on:
+  workflow_dispatch:
+    inputs:
+      backend_url:
+        description: Backend API URL
+        required: true
+        default: http://localhost:8080
+      threads:
+        description: Virtual users
+        required: true
+        default: '10'
+      ramp_up_seconds:
+        description: Ramp-up time in seconds
+        required: true
+        default: '30'
+      duration_seconds:
+        description: Test duration in seconds
+        required: true
+        default: '60'
+      max_response_ms:
+        description: Per-request max response time assertion
+        required: true
+        default: '1500'
+      api_auth_token:
+        description: Optional backend bearer token for secured endpoints
+        required: false
+        default: ''
+
+jobs:
+  rest-business-performance:
+    name: JMeter REST business flow load
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout QA repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - name: Parse backend URL
+        id: backend
+        shell: bash
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import os
+          from urllib.parse import urlparse
+
+          raw_url = os.environ["BACKEND_URL"].strip()
+          parsed = urlparse(raw_url if "://" in raw_url else f"http://{raw_url}")
+          scheme = parsed.scheme or "http"
+          host = parsed.hostname or "localhost"
+          port = parsed.port
+          print(f"protocol={scheme}")
+          print(f"host={host}")
+          print(f"port={port or ''}")
+          PY
+        env:
+          BACKEND_URL: ${{ inputs.backend_url }}
+
+      - name: Run REST business flow performance suite
+        shell: bash
+        run: |
+          mvn -B -am -pl jmeter-performance-tests verify \
+            -DtargetProtocol="${{ steps.backend.outputs.protocol }}" \
+            -DtargetHost="${{ steps.backend.outputs.host }}" \
+            -DtargetPort="${{ steps.backend.outputs.port }}" \
+            -Dthreads="${{ inputs.threads }}" \
+            -DrampUpSeconds="${{ inputs.ramp_up_seconds }}" \
+            -DdurationSeconds="${{ inputs.duration_seconds }}" \
+            -DmaxResponseMs="${{ inputs.max_response_ms }}" \
+            -DauthToken="${{ inputs.api_auth_token }}" \
+            -DrestBusinessEndpointCsv="src/test/resources/data/rest-business-flow-endpoints.csv"
+
+      - name: Publish REST business performance pass/fail summary
+        if: always()
+        run: |
+          python3 .github/scripts/qa-suite-summary.py \
+            --title "REST Business Performance Results" \
+            --jmeter "jmeter-performance-tests/target/**/*.jtl" \
+            --jmeter "jmeter-performance-tests/target/**/*.xml"
+
+      - name: Upload REST business performance reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rest-business-performance-results
+          path: |
+            jmeter-performance-tests/target/jmeter
+            jmeter-performance-tests/target/**/*.jtl
+            jmeter-performance-tests/target/**/*.log
+          if-no-files-found: warn

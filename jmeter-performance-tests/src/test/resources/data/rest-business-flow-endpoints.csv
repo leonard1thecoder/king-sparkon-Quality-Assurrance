@@ -1,0 +1,11 @@
+name|method|path|body|expectedStatus
+smoke-tips-list|GET|/api/tips||200
+smoke-claims-list|GET|/api/claims||200
+smoke-returnables-list|GET|/api/returnables||200
+smoke-transactions-list|GET|/api/transactions||200
+tips-create|POST|/api/tips|{"workerId":1001,"tipAmount":25.00,"source":"JMETER"}|200,201
+tips-payment-link|POST|/api/tips|{"workerId":1001,"tipAmount":25.00,"callbackUrl":"http://localhost:3000/tips/complete","clientContact":"qa.customer@example.com"}|200,201
+claims-create|POST|/api/claims|{"workerId":1001,"claimAmount":25.00,"claimType":"TIP_WITHDRAWAL","description":"JMeter claim"}|200,201
+returnables-create|POST|/api/returnables|{"companyProductId":501,"quantity":2,"source":"JMETER"}|200,201
+transactions-create|POST|/api/transactions|{"orderId":3001,"amount":100.00,"method":"CARD","transactionReference":"jmeter-txn-${__time()}"}|200,201
+transactions-event|POST|/api/transactions/events|{"eventType":"PAYMENT_SUCCESS","reference":"jmeter-event-${__time()}"}|200,202

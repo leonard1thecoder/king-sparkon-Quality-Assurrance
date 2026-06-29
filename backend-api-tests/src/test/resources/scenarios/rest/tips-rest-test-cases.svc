@@ -1,0 +1,16 @@
+id|domain|caseType|name|method|path|body|expectedStatus|requiresAuth|priority|expectedBodyContains
+TIPS-CREATE-201|TIPS|POSITIVE|Create worker tip|POST|/api/tips|{"workerId":1001,"tipAmount":25.00,"source":"QA_AUTOMATION"}|200,201|true|P0|
+TIPS-CREATE-MISSING-WORKER-400|TIPS|NEGATIVE|Reject tip without worker|POST|/api/tips|{"tipAmount":25.00,"source":"QA_AUTOMATION"}|400|true|P0|
+TIPS-CREATE-NEGATIVE-AMOUNT-400|TIPS|NEGATIVE|Reject negative tip amount|POST|/api/tips|{"workerId":1001,"tipAmount":-10.00,"source":"QA_AUTOMATION"}|400|true|P0|
+TIPS-LIST-WORKER-200|TIPS|POSITIVE|List tips|GET|/api/tips||200|true|P0|
+TIPS-LIST-WORKER-NOT-FOUND-404|TIPS|NEGATIVE|Reject unknown worker tip list|GET|/api/tips?workerId=999999||404|true|P1|
+TIPS-MARK-PAID-200|TIPS|POSITIVE|Mark tip as paid|PATCH|/api/tips/9001/paid|{"paidBy":"owner-qa","paymentReference":"qa-tip-payout-9001"}|200|true|P0|
+TIPS-MARK-PAID-NOT-FOUND-404|TIPS|NEGATIVE|Reject paid update for unknown tip|PATCH|/api/tips/999999/paid|{"paidBy":"owner-qa","paymentReference":"qa-tip-payout-missing"}|404|true|P0|
+TIPS-MARK-PAID-BAD-STATUS-409|TIPS|NEGATIVE|Reject duplicate paid update|PATCH|/api/tips/9001/paid|{"paidBy":"owner-qa","paymentReference":"qa-tip-payout-duplicate"}|409|true|P1|
+TIPS-PAYMENT-LINK-200|TIPS|POSITIVE|Create Stripe tip payment link|POST|/api/tips|{"workerId":1001,"tipAmount":25.00,"callbackUrl":"http://localhost:3000/tips/complete","clientContact":"qa.customer@example.com"}|200,201|true|P0|
+TIPS-PAYMENT-LINK-BAD-CONTACT-400|TIPS|NEGATIVE|Reject payment link with invalid contact|POST|/api/tips|{"workerId":1001,"tipAmount":25.00,"callbackUrl":"http://localhost:3000/tips/complete","clientContact":"not-an-email"}|400|true|P0|
+TIPS-WHATSAPP-SEND-202|TIPS|POSITIVE|Send WhatsApp tip referral link|POST|/api/tips/share/whatsapp|{"workerId":1001,"tipAmount":25.00,"phoneNumber":"+27821234567"}|200,202|true|P1|
+TIPS-WHATSAPP-MISSING-PHONE-400|TIPS|NEGATIVE|Reject WhatsApp share without phone|POST|/api/tips/share/whatsapp|{"workerId":1001,"tipAmount":25.00}|400|true|P1|
+TIPS-EMAIL-SEND-202|TIPS|POSITIVE|Send email tip referral link|POST|/api/tips/share/email|{"workerId":1001,"tipAmount":25.00,"email":"qa.customer@example.com"}|200,202|true|P1|
+TIPS-EMAIL-BAD-ADDRESS-400|TIPS|NEGATIVE|Reject email share with invalid address|POST|/api/tips/share/email|{"workerId":1001,"tipAmount":25.00,"email":"bad-email"}|400|true|P1|
+TIPS-UNAUTH-401|TIPS|NEGATIVE|Reject unauthenticated tips request|GET|/api/tips||401,403|false|P0|
