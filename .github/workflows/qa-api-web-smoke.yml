@@ -6,7 +6,7 @@ on:
       backend_url:
         description: Backend API URL
         required: true
-        default: http://localhost:8080
+        default: https://king-sparkon-tracker-backend-75756350962.africa-south1.run.app
       frontend_url:
         description: Website frontend URL
         required: true

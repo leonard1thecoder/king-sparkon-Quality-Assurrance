@@ -14,7 +14,7 @@
     <name>King Sparkon Tracker - Backend API Tests</name>
 
     <properties>
-        <api.baseUrl>http://localhost:8080</api.baseUrl>
+        <api.baseUrl>https://king-sparkon-tracker-backend-75756350962.africa-south1.run.app</api.baseUrl>
         <api.authToken></api.authToken>
         <api.executeRestFlows>false</api.executeRestFlows>
     </properties>

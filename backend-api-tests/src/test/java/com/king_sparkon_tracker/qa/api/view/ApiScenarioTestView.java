@@ -23,7 +23,7 @@ public class ApiScenarioTestView extends AbstractTestView {
                 scenario.id(),
                 "Backend API - " + scenario.method() + " " + scenario.path(),
                 scenario.name(),
-                "Expected HTTP " + scenario.expectedStatus()
+                "Expected HTTP " + scenario.expectedStatusesLabel()
         ));
         this.scenario = scenario;
         this.authToken = authToken == null ? "" : authToken.trim();
@@ -36,29 +36,37 @@ public class ApiScenarioTestView extends AbstractTestView {
                 step(2, "Attach bearer token when scenario requires authentication", "Authorization header is available for protected APIs"),
                 step(3, "Attach request body when scenario defines one", "Request payload is ready"),
                 step(4, "Execute backend API request", "Backend responds"),
-                step(5, "Assert expected HTTP status " + scenario.expectedStatus(), "API scenario passes when status matches expected value")
+                step(5, "Assert expected HTTP status " + scenario.expectedStatusesLabel(), "API scenario passes when status is accepted")
         );
     }
 
     @Override
     protected String executeTestLogic() {
         Response response = executeRequest();
-        assertThat(response.statusCode())
-                .as("%s %s should return HTTP %s. Body: %s", scenario.method(), scenario.path(), scenario.expectedStatus(), response.asPrettyString())
-                .isEqualTo(scenario.expectedStatus());
+        int actualStatus = response.statusCode();
 
-        return scenario.method() + " " + scenario.path() + " returned expected HTTP " + scenario.expectedStatus();
+        assertThat(scenario.acceptsStatus(actualStatus))
+                .as("%s %s should return one of HTTP [%s] but returned HTTP %s. Body: %s",
+                        scenario.method(),
+                        scenario.path(),
+                        scenario.expectedStatusesLabel(),
+                        actualStatus,
+                        response.asPrettyString())
+                .isTrue();
+
+        return scenario.method() + " " + scenario.path() + " returned accepted HTTP " + actualStatus;
     }
 
     @Override
     protected String failureDescription() {
-        return scenario.method() + " " + scenario.path() + " did not return expected HTTP " + scenario.expectedStatus();
+        return scenario.method() + " " + scenario.path() + " did not return expected HTTP " + scenario.expectedStatusesLabel();
     }
 
     private Response executeRequest() {
         RequestSpecification request = RestAssured.given()
                 .accept(ContentType.JSON)
-                .contentType(ContentType.JSON);
+                .contentType(ContentType.JSON)
+                .header("X-QA-Test-Run", "king-sparkon-preprod-contract");
 
         if (!authToken.isBlank()) {
             request.header("Authorization", "Bearer " + authToken);
