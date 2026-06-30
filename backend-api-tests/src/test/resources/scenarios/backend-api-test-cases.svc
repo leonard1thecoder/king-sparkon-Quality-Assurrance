@@ -1,7 +1,7 @@
 id|name|method|path|body|expectedStatuses|requiresAuth
 API-HEALTH-001|Health check|GET|/actuator/health||200|false
-API-DOCS-001|OpenAPI docs|GET|/v3/api-docs||200|false
-API-SWAGGER-001|Swagger UI|GET|/swagger-ui.html||200,302|false
+API-DOCS-AUTH-001|OpenAPI docs are protected in production|GET|/v3/api-docs||401,403|false
+API-SWAGGER-AUTH-001|Swagger UI is protected in production|GET|/swagger-ui.html||401,403|false
 USER-DASHBOARD-AUTH-001|User dashboard requires authentication|GET|/api/user-dashboard||401,403|false
 USER-DASHBOARD-BUSINESSES-AUTH-001|Business dashboard cards require authentication|GET|/api/user-dashboard/businesses||401,403|false
 USER-DASHBOARD-WORKERS-AUTH-001|Business worker list requires authentication|GET|/api/user-dashboard/businesses/1/workers||401,403|false
@@ -16,8 +16,5 @@ BUSINESS-ACCOUNT-SUMMARY-AUTH-001|Business account summary requires authenticati
 BUSINESS-ACCOUNT-LEDGER-AUTH-001|Business account ledger requires authentication|GET|/api/business-account/ledger||401,403|false
 BUSINESS-ACCOUNT-TOPUP-AUTH-001|Business account top-up requires authentication|POST|/api/business-account/top-ups|{"amount":100.00,"paymentMethod":"STRIPE"}|401,403|false
 BUSINESS-ACCOUNT-TOPUP-CONFIRM-AUTH-001|Business account top-up confirmation requires authentication|POST|/api/business-account/top-ups/1/confirm||401,403|false
-API-ME-001|Current user profile positive path|GET|/api/v1/users/me||200|true
-API-PRODUCTS-001|Product catalogue positive path|GET|/api/v1/products||200|true
-API-INVENTORY-001|Inventory list positive path|GET|/api/v1/inventory||200|true
-API-DASHBOARD-001|Dashboard report positive path|GET|/api/v1/reports/dashboard||200|true
-API-BARCODE-001|Barcode scan positive path|POST|/api/v1/barcodes/scan|{"barcode":"6009801234567","deviceId":"api-test-device-001","source":"REST_ASSURED"}|200|true
+USER-DASHBOARD-001|Current user dashboard positive path|GET|/api/user-dashboard||200|true
+TICKETS-MY-TICKETS-001|Current user tickets positive path|GET|/api/v1/tickets/me/tickets||200,204|true
