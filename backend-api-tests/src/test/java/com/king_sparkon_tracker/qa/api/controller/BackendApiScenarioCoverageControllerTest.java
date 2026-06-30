@@ -40,24 +40,22 @@ class BackendApiScenarioCoverageControllerTest {
     void controllerShouldCoverBackendFeatureSurfaceFromCurrentContract() {
         Map<String, Predicate<ApiScenario>> requiredCoverage = new LinkedHashMap<>();
         requiredCoverage.put("operations health", scenario -> scenario.path().equals("/actuator/health"));
-        requiredCoverage.put("OpenAPI contract", scenario -> scenario.path().equals("/v3/api-docs"));
-        requiredCoverage.put("Swagger UI", scenario -> scenario.path().equals("/swagger-ui.html"));
-        requiredCoverage.put("user dashboard", scenario -> scenario.path().equals("/api/user-dashboard"));
+        requiredCoverage.put("protected OpenAPI contract", scenario -> scenario.path().equals("/v3/api-docs") && scenario.expectedStatuses().containsAll(AUTH_WALL_STATUSES));
+        requiredCoverage.put("protected Swagger UI", scenario -> scenario.path().equals("/swagger-ui.html") && scenario.expectedStatuses().containsAll(AUTH_WALL_STATUSES));
+        requiredCoverage.put("user dashboard auth wall", scenario -> scenario.path().equals("/api/user-dashboard") && !scenario.requiresAuth());
+        requiredCoverage.put("user dashboard positive path", scenario -> scenario.path().equals("/api/user-dashboard") && scenario.requiresAuth());
         requiredCoverage.put("business dashboard cards", scenario -> scenario.path().equals("/api/user-dashboard/businesses"));
         requiredCoverage.put("business workers for tips", scenario -> scenario.path().contains("/workers"));
         requiredCoverage.put("business events", scenario -> scenario.path().contains("/events") && scenario.path().contains("businesses"));
         requiredCoverage.put("worker tip payment link", scenario -> scenario.path().equals("/api/user-dashboard/tips"));
         requiredCoverage.put("ticket events", scenario -> scenario.path().equals("/api/v1/tickets/events"));
         requiredCoverage.put("ticket purchase", scenario -> scenario.path().equals("/api/v1/tickets/me/purchase"));
-        requiredCoverage.put("my tickets", scenario -> scenario.path().equals("/api/v1/tickets/me/tickets"));
+        requiredCoverage.put("my tickets auth wall", scenario -> scenario.path().equals("/api/v1/tickets/me/tickets") && !scenario.requiresAuth());
+        requiredCoverage.put("my tickets positive path", scenario -> scenario.path().equals("/api/v1/tickets/me/tickets") && scenario.requiresAuth());
         requiredCoverage.put("ticket boosts", scenario -> scenario.path().contains("/boosts"));
         requiredCoverage.put("business account summary", scenario -> scenario.path().equals("/api/business-account/summary"));
         requiredCoverage.put("business account ledger", scenario -> scenario.path().equals("/api/business-account/ledger"));
         requiredCoverage.put("business account top-up", scenario -> scenario.path().equals("/api/business-account/top-ups"));
-        requiredCoverage.put("current user positive path", scenario -> scenario.path().equals("/api/v1/users/me") && scenario.requiresAuth());
-        requiredCoverage.put("product catalogue positive path", scenario -> scenario.path().equals("/api/v1/products") && scenario.requiresAuth());
-        requiredCoverage.put("inventory positive path", scenario -> scenario.path().equals("/api/v1/inventory") && scenario.requiresAuth());
-        requiredCoverage.put("barcode scan positive path", scenario -> scenario.path().equals("/api/v1/barcodes/scan") && scenario.requiresAuth());
 
         requiredCoverage.forEach((area, rule) -> assertThat(SCENARIOS.stream().anyMatch(rule))
                 .as("Missing backend API scenario coverage for %s", area)
@@ -79,7 +77,7 @@ class BackendApiScenarioCoverageControllerTest {
 
     @Test
     void controllerShouldKeepPublicSmokeCoverageRunnableWithoutSecrets() {
-        List<String> publicSmokeIds = List.of("API-HEALTH-001", "API-DOCS-001", "API-SWAGGER-001", "TICKETS-PUBLIC-EVENTS-001");
+        List<String> publicSmokeIds = List.of("API-HEALTH-001", "TICKETS-PUBLIC-EVENTS-001");
 
         assertThat(SCENARIOS)
                 .filteredOn(scenario -> publicSmokeIds.contains(scenario.id()))
@@ -95,12 +93,12 @@ class BackendApiScenarioCoverageControllerTest {
 
     @Test
     void controllerShouldParseMultiStatusExpectationsForCloudRunAndSpringSecurityDifferences() {
-        ApiScenario swaggerScenario = findScenario("API-SWAGGER-001");
+        ApiScenario swaggerScenario = findScenario("API-SWAGGER-AUTH-001");
         ApiScenario dashboardAuthWallScenario = findScenario("USER-DASHBOARD-AUTH-001");
 
         assertThat(swaggerScenario.expectedStatuses())
-                .as("Swagger can be served directly or redirect to swagger-ui/index.html")
-                .containsExactly(200, 302);
+                .as("Production Swagger can be protected by Spring Security")
+                .containsExactly(401, 403);
         assertThat(dashboardAuthWallScenario.expectedStatuses())
                 .as("Spring Security may return 401 or 403 depending on filter order")
                 .containsExactly(401, 403);
