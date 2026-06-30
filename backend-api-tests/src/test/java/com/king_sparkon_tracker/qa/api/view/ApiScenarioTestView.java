@@ -33,7 +33,7 @@ public class ApiScenarioTestView extends AbstractTestView {
     protected List<TestStepModel> endToEndSteps() {
         return List.of(
                 step(1, "Prepare REST Assured request for " + scenario.method() + " " + scenario.path(), "Request specification is ready"),
-                step(2, "Attach bearer token when scenario requires authentication", "Authorization header is available for protected APIs"),
+                step(2, "Attach token only when scenario requires authentication", "Protected positive scenarios can authenticate without changing public or negative scenarios"),
                 step(3, "Attach request body when scenario defines one", "Request payload is ready"),
                 step(4, "Execute backend API request", "Backend responds"),
                 step(5, "Assert expected HTTP status " + scenario.expectedStatusesLabel(), "API scenario passes when status is accepted")
@@ -68,8 +68,8 @@ public class ApiScenarioTestView extends AbstractTestView {
                 .contentType(ContentType.JSON)
                 .header("X-QA-Test-Run", "king-sparkon-preprod-contract");
 
-        if (!authToken.isBlank()) {
-            request.header("Authorization", "Bearer " + authToken);
+        if (scenario.requiresAuth() && !authToken.isBlank()) {
+            request.auth().oauth2(authToken);
         }
 
         if (!scenario.body().isBlank()) {
