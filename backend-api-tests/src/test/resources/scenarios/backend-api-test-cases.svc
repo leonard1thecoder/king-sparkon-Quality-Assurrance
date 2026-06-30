@@ -8,7 +8,7 @@ USER-DASHBOARD-WORKERS-AUTH-001|Business worker list requires authentication|GET
 USER-DASHBOARD-EVENTS-AUTH-001|Business ticket events require authentication|GET|/api/user-dashboard/businesses/1/events||401,403|false
 USER-DASHBOARD-TIPS-AUTH-001|Worker tip payment link requires authentication|POST|/api/user-dashboard/tips|{"workerId":1,"tipAmount":20.00,"clientName":"QA Preprod","clientEmail":"qa@example.com"}|401,403|false
 TICKETS-PUBLIC-EVENTS-001|Public ticket events endpoint is reachable|GET|/api/v1/tickets/events||200,204|false
-TICKETS-PURCHASE-AUTH-001|Ticket purchase requires authentication|POST|/api/v1/tickets/me/purchase|{"eventId":"qa-event","ticketType":"General","quantity":1,"buyerName":"QA Preprod","buyerEmail":"qa@example.com"}|401,403|false
+TICKETS-PURCHASE-AUTH-001|Ticket purchase requires authentication|POST|/api/v1/tickets/me/purchase|{"eventId":"qa-event","ticketType":"REGULAR","quantity":1,"buyerName":"QA Preprod","buyerEmail":"qa@example.com"}|401,403|false
 TICKETS-MY-TICKETS-AUTH-001|Purchased tickets list requires authentication|GET|/api/v1/tickets/me/tickets||401,403|false
 TICKETS-BOOST-AUTH-001|Owner ticket event boost requires authentication|POST|/api/v1/tickets/me/events/qa-event/boosts|{"amount":1500.00,"currency":"ZAR"}|401,403|false
 TICKETS-EVENT-BOOSTS-AUTH-001|Owner event boosts list requires authentication|GET|/api/v1/tickets/me/event-boosts||401,403|false
